@@ -1,0 +1,4 @@
+POST http://localhost:4000/admin-api/create-user
+
+###
+POST http://localhost:4000/admin-api/

@@ -1,0 +1,14 @@
+GET http://localhost:4000/user-api/alumini-form
+
+###
+POST http://localhost:4000/user-api/login
+Content-Type: application/json
+
+{
+    "username":"alumniUsername",
+    "usertype":"alumni",
+    "password":"alumniPassword"
+}
+
+###
+POST http://localhost:4000/user-api/submit
