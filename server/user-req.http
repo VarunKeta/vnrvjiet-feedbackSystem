@@ -1,4 +1,4 @@
-GET http://localhost:4000/user-api/alumini-form
+GET http://localhost:4000/user-api/alumni-form
 
 ###
 POST http://localhost:4000/user-api/login
@@ -12,3 +12,10 @@ Content-Type: application/json
 
 ###
 POST http://localhost:4000/user-api/submit
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFsdW1uaVVzZXJuYW1lIiwiaWF0IjoxNzE3NDQyMjM0LCJleHAiOjE3MTc0NDQwMzR9.B9N0diNgIFTK2rlSRzvWTr-aExXVVhExeHIrZmsPMRk
+Content-Type: application/json
+
+{
+    "qid":1,
+    "username":
+}

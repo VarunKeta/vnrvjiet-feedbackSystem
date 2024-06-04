@@ -1,36 +1,38 @@
 const exp=require('express')
 const userApp=exp.Router()
-const bcrypt=require('bcryptjs')
+const bcryptjs=require('bcryptjs')
 const jwt=require('jsonwebtoken')
-const expressAsyncHandler=require('express-async-handler')
-// const verifyToken = require('../middleware/verifyToken')//imp
-//get user collection app
 require('dotenv').config()
-userApp.use(exp.json());
-let usercollection;
-userApp.use((req,res,next)=>{
-    usercollection=req.app.get('usercollection')
-    next()
-})
+const expressAsyncHandler=require('express-async-handler')
+// const verifyToken = require('../middleware/verifyToken')
 
 //userlogin
 userApp.post('/login',expressAsyncHandler(async(req,res)=>{
     const userCred=req.body;
-    if(userCred.userType==="alumni"){
-      const dbuser=await usercollection.findOne({alumni:{username:userCred.username}})
-    //   const status=bcrypt.compare(userCred.password,dbuser.password)
-      if(dbuser===null||userCred.password!==dbuser.password /*status===false*/){
-            res.send({message:'Invalid Credentials'})
-      }
-      else{
-            const signedToken=jwt.sign({username:dbuser.username},process.env.SECRET_KEY,{expiresIn:'30m'})
-            res.send({message:'login success',token:signedToken,user:dbuser})
-      }
+    let userTypeCollection;
+
+    if(userCred.usertype==="alumni"){
+      userTypeCollection=req.app.get('alumniCollection')
     }
-    //jwt token
+    const dbUser=await userTypeCollection.findOne({username:userCred.username})
+    // const status=bcrypt.compare(userCred.password,dbuser.password)
+    if(dbUser===null||userCred.password!==dbUser.password /*status===false*/){
+      res.send({message:'Invalid credentials'})
+    }
+    else{
+      const signedToken=jwt.sign({username:dbUser.username},process.env.SECRET_KEY,{expiresIn:'30m'})
+      res.send({message:'Login success',token:signedToken,user:dbUser})
+    }  
 }))
 
 //alumini form
-// userApp.get('/alumini-form',expressAsyncHandler(async(req,res)=>{
+userApp.get('/alumni-form',expressAsyncHandler(async(req,res)=>{
+  const alumniQuestions=req.app.get('alumniQuestions')
+  const questions=await alumniQuestions.find().toArray()
+  res.send({message:'Alumni Questions',payload:questions})
+}))
 
-// }))
+//form submit
+// userApp.post('/alumni-form')
+
+module.exports=userApp

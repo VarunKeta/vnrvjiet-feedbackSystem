@@ -1,0 +1,42 @@
+.feed {
+    margin-bottom: 20px;
+  }
+  
+  .post {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .post h3 {
+    margin-top: 0;
+  }
+  
+  .post-actions {
+    margin-top: 10px;
+  }
+  
+  .post-actions button {
+    margin-right: 10px;
+  }
+  
+  .create-form {
+    text-align: center;
+  }
+  
+  .new-form-button {
+    font-size: 24px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+  }
+  
+  .new-form-button:hover {
+    background-color: #0056b3;
+  }
+  
