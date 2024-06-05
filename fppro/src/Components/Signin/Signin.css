@@ -1,0 +1,11 @@
+.box{
+    width:500px;
+backdrop-filter: blur(8.4px);
+-webkit-backdrop-filter: blur(8.4px);
+background-color:  rgba(142, 206, 232, 0.336);
+box-shadow: rgba(248, 213, 213, 0.35) 0px 5px 15px;
+}
+input:checked {
+    background-color: #F9BE00  !important;
+  }
+  
