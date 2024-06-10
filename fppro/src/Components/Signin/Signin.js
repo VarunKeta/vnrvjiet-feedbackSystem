@@ -4,7 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { userAdminLoginThunk } from "../../redux/slices/userAdminSlice";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useRadioGroup } from '@mui/material/RadioGroup';
+import {RadioGroup} from '@mui/material'
+import {Radio} from '@mui/material'
+import {FormControlLabel} from '@mui/material'
 function Signin() {
   const {
     register,
@@ -53,36 +56,16 @@ function Signin() {
               <form onSubmit={handleSubmit(onSignInFormSubmit)}>
                 {/* Radio buttons */}
                 <div className="mb-4">
-                  <label
+                <label
                     className="form-check-label me-3 text-primary"
                     style={{ fontSize: "1.2rem", color: "var(--light-dark-grey)" }}
                   >
                     Login as
                   </label>
-                  <div className="form-check form-check-inline">
-                    <input
-                      type="radio"
-                      className="form-check-input"
-                      id="admin"
-                      value="admin"
-                      {...register("userType", { required: true })}
-                    />
-                    <label htmlFor="admin" className="form-check-label">
-                      Admin
-                    </label>
-                  </div>
-                  <div className="form-check form-check-inline">
-                    <input
-                      type="radio"
-                      className="form-check-input"
-                      id="user"
-                      value="user"
-                      {...register("userType", { required: true })}
-                    />
-                    <label htmlFor="user" className="form-check-label">
-                      User
-                    </label>
-                  </div>
+                <RadioGroup row className="use-radio-group form-check" defaultValue="admin">
+                      <FormControlLabel  className="form-check-input me-5" value="admin" label="admin" control={<Radio />} {...register("userType", { required: true })} />
+                      <FormControlLabel className="form-check-input ms-5" value="user" label="user" control={<Radio />} {...register("userType", { required: true })} />
+                </RadioGroup>
                 </div>
                 {errors.userType && (
                   <p className="text-danger">Please select a user type</p>

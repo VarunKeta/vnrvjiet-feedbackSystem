@@ -12,6 +12,7 @@ import CreateUser from '../Admin/CreateUser/CreateUser';
 import UpdateUser from '../Admin/UpdateUser/UpdateUser';
 import RetrieveUser from '../Admin/RetrieveUser/RetrieveUser';
 import DeleteUser from '../Admin/DeleteUser/DeleteUser';
+import CreateForm from '../Admin/CreateForm/CreateForm';
 function AdminProfile() {
     let { loginUserStatus, errorOccurred, errMsg,currentUser } = useSelector(
         (state) => state.userAdminLoginReducer
@@ -26,7 +27,9 @@ function AdminProfile() {
     {/* <CreateUser/> */}
     {/* <UpdateUser/> */}
     {/* <RetrieveUser/> */}
-    <DeleteUser/>
+    {/* <DeleteUser/> */}
+    {/* <CreateUser/> */}
+    <CreateForm/>
     {/* {userType2 === "alumni" ? (
         <>
           <Alumini/>

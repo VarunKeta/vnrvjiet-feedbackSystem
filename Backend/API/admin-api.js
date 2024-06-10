@@ -113,4 +113,22 @@ adminApp.delete('/deleteuser', verifyToken, expressAsyncHandler(async (req, res)
         res.send({ message: "User not found" });
     }
 }));
+adminApp.post('/create-form', verifyToken, async (req, res) => {
+    try {
+        const { title } = req.body;
+        if (!title) {
+            return res.status(400).json({ message: 'Title is required' });
+        }
+
+        const formData = await runSample(title);
+        res.status(201).json({
+            message: 'Form created successfully',
+            formDetails: formData
+        });
+    } catch (error) {
+        console.error('Failed to create form:', error);
+        res.status(500).json({ message: 'Failed to create form', error: error.message });
+    }
+});
+
 module.exports=adminApp;
