@@ -8,18 +8,24 @@ require('dotenv').config();
 
 alumniApp.use(exp.json());
 
-let alquestionscollection;
+let createquestionscollection;
 let usercollection;
 
 alumniApp.use((req, res, next) => {
-  alquestionscollection = req.app.get('alquestionscollection');
+  createquestionscollection = req.app.get('createquestionscollection');
   usercollection = req.app.get('usercollection');
   next();
 });
 
 alumniApp.get('/form', expressAsyncHandler(async (req, res) => {
-  let alquestions = await alquestionscollection.find().toArray();
-  res.send({ message: 'alumni questions', payload: alquestions });
+  try {
+    const questionscollection = await createquestionscollection.find().toArray();
+    console.log(questionscollection)
+    res.send({ message: 'alumni questions', payload: questionscollection});
+  } catch (error) {
+    console.error('Error fetching alumni questions:', error);
+    res.status(500).send({ message: 'Error fetching alumni questions' });
+  }
 }));
 
 alumniApp.post('/form', expressAsyncHandler(async (req, res) => {
@@ -57,5 +63,6 @@ alumniApp.post('/form', expressAsyncHandler(async (req, res) => {
 // 2. yes/no
 // 3. comment type
 // 4. excellent to poor (5 options)
+
 
 module.exports = alumniApp;

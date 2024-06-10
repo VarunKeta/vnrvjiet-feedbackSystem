@@ -22,6 +22,8 @@ MongoClient.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
     app.set('alquestionscollection', alquestionscollection);
     const userscollection = feedbackDB.collection('userscollection');
     app.set('userscollection', userscollection);
+    const createquestionscollection = feedbackDB.collection('createquestionscollection');
+    app.set('createquestionscollection', createquestionscollection);
     console.log('DB connection successful');
   })
   .catch(err => console.error('Error in connecting to DB:', err));

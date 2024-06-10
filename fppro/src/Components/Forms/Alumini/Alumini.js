@@ -9,7 +9,6 @@ function Alumini() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { currentUser } = useSelector((state) => state.userAdminLoginReducer);
 
-  // New state for additional fields
   const [formDetails, setFormDetails] = useState({
     name: '',
     specialization: '',
@@ -31,21 +30,15 @@ function Alumini() {
         return res.json();
       })
       .then((data) => {
-        if (data && data.payload) {
-          setQuestions(data.payload);
+        console.log(data)
+        if (data && data.payload && data.payload.length > 0) {
+          setQuestions(data.payload[0].questions);
         }
       })
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
 
   const handleRadioChange = (questionId, value) => {
-    setResponses((prevResponses) => ({
-      ...prevResponses,
-      [questionId]: value,
-    }));
-  };
-
-  const handleCommentChange = (questionId, value) => {
     setResponses((prevResponses) => ({
       ...prevResponses,
       [questionId]: value,
@@ -67,7 +60,7 @@ function Alumini() {
       password: currentUser.password,
       responses,
       comments,
-      ...formDetails // Include additional form details in the submission
+      ...formDetails
     };
 
     fetch('http://localhost:5000/alumini-api/form', {
@@ -173,90 +166,37 @@ function Alumini() {
           />
         </div>
       </div>
+
       {questions.map((question) => (
         <div key={question.qid} className="card mb-3 ms-4 me-4">
           <div className="card-body fs-5">
-            {question.qid}. {question.text}
+            <div>{question.text}</div>
             <div className='container w-75 mt-3 text-center'>
-              {question.qtype === 1 && (
-                <div className="btn-group radio-group text-center" role="group" aria-label="Basic radio toggle button group" style={{ display: 'flex', gap: '10px' }}>
-                  {[5, 4, 3, 2, 1].map((value) => (
-                    <React.Fragment key={value}>
-                      <input
-                        type="radio"
-                        className="btn-check"
-                        name={`btnradio${question.qid}`}
-                        id={`btnradio${question.qid}-${value}`}
-                        autoComplete="off"
-                        onChange={() => handleRadioChange(question.qid, value)}
-                      />
-                      <label
-                        className={`btn text-center d-block  ${value <= 1 ? 'radio_label_r' : value <= 3 ? 'radio_label_y' : 'radio_label_g'} rounded`}
-                        htmlFor={`btnradio${question.qid}-${value}`}
-                      >
-                        {value}
-                      </label>
-                    </React.Fragment>
-                  ))}
-                </div>
-              )}
-              {question.qtype === 2 && (
-                <div className="btn-group radio-group text-center" role="group" aria-label="Basic radio toggle button group" style={{ display: 'flex', gap: '10px' }}>
-                  {['Yes', 'No'].map((value) => (
-                    <React.Fragment key={value}>
-                      <input
-                        type="radio"
-                        className="btn-check"
-                        name={`btnradio${question.qid}`}
-                        id={`btnradio${question.qid}-${value}`}
-                        autoComplete="off"
-                        onChange={() => handleRadioChange(question.qid, value)}
-                      />
-                      <label
-                        className={`btn text-center ${value === 'Yes' ? 'radio_label_g' : 'radio_label_r'} rounded`}
-                        htmlFor={`btnradio${question.qid}-${value}`}
-                      >
-                        {value}
-                      </label>
-                    </React.Fragment>
-                  ))}
-                </div>
-              )}
-              {question.qtype === 3 && (
-                <textarea
-                  className="form-control mt-1"
-                  id={`textarea${question.qid}`}
-                  rows="2"
-                  value={responses[question.qid] || ''}
-                  onChange={(e) => handleCommentChange(question.qid, e.target.value)}
-                ></textarea>
-              )}
-              {question.qtype === 4 && (
-                <div className="btn-group radio-group text-center" role="group" aria-label="Basic radio toggle button group" style={{ display: 'flex', gap: '10px' }}>
-                  {['Excellent', 'Very Good', 'Good', 'Satisfactory', 'Poor'].map((value) => (
-                    <React.Fragment key={value}>
-                      <input
-                        type="radio"
-                        className="btn-check"
-                        name={`btnradio${question.qid}`}
-                        id={`btnradio${question.qid}-${value}`}
-                        autoComplete="off"
-                        onChange={() => handleRadioChange(question.qid, value)}
-                      />
-                      <label
-                       className={`btn text-center d-block  ${value === 'Excellent' ? 'radio_label_g' : value === 'Very Good' ? 'radio_label_g' : value === 'Good' ? 'radio_label_y' : value === 'Satisfactory' ? 'radio_label_y' : 'radio_label_r'} rounded`}
-                        htmlFor={`btnradio${question.qid}-${value}`}
-                      >
-                        {value}
-                      </label>
-                    </React.Fragment>
-                  ))}
-                </div>
-              )}
+              <div className="btn-group radio-group text-center" role="group" aria-label="Basic radio toggle button group" style={{ display: 'flex', gap: '10px' }}>
+                {[5, 4, 3, 2, 1].map((value) => (
+                  <React.Fragment key={value}>
+                    <input
+                      type="radio"
+                      className="btn-check"
+                      name={`btnradio${question.qid}`}
+                      id={`btnradio${question.qid}-${value}`}
+                      autoComplete="off"
+                      onChange={() => handleRadioChange(question.qid, value)}
+                    />
+                    <label
+                      className={`btn text-center ${value <= 1 ? 'radio_label_r' : value <= 3 ? 'radio_label_y' : 'radio_label_g'} rounded`}
+                      htmlFor={`btnradio${question.qid}-${value}`}
+                    >
+                      {value}
+                    </label>
+                  </React.Fragment>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       ))}
+      
       <div className="mb-4 fs-4 ms-4 me-4">
         <label htmlFor="content" className="">General Comments</label>
         <textarea

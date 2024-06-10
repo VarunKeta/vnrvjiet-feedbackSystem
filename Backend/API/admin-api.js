@@ -9,8 +9,10 @@ const verifyToken = require('../Middleware/verifyToken')
 require('dotenv').config()
 adminApp.use(exp.json());
 let userscollection;
+let createquestionscollection;
 adminApp.use((req,res,next)=>{
     userscollection=req.app.get('userscollection')
+    createquestionscollection=req.app.get('createquestionscollection')
     next()
 })
 adminApp.post('/login', expressAsyncHandler(async (req, res) => {
@@ -113,22 +115,34 @@ adminApp.delete('/deleteuser', verifyToken, expressAsyncHandler(async (req, res)
         res.send({ message: "User not found" });
     }
 }));
-adminApp.post('/create-form', verifyToken, async (req, res) => {
-    try {
-        const { title } = req.body;
-        if (!title) {
-            return res.status(400).json({ message: 'Title is required' });
-        }
 
-        const formData = await runSample(title);
-        res.status(201).json({
-            message: 'Form created successfully',
-            formDetails: formData
-        });
-    } catch (error) {
-        console.error('Failed to create form:', error);
-        res.status(500).json({ message: 'Failed to create form', error: error.message });
+
+
+adminApp.post('/create-form', expressAsyncHandler(async (req, res) => {
+    const { title, questions } = req.body;
+
+    if (!title || !questions || questions.length === 0) {
+        return res.status(400).json({ message: 'Title and questions are required.' });
     }
-});
+
+  
+    // Manually increment qid starting from 1 for each question in the form
+    const transformedQuestions = questions.map((q, index) => ({
+        qid: index + 1,  // Increment qid starting from 1
+        text: q.text,
+        qtype: q.qtype,
+        references: q.references || []
+    }));
+
+    const form = {
+        title,
+        questions: transformedQuestions,
+        createdAt: new Date()
+    };
+
+    await createquestionscollection.insertOne(form);
+    res.status(201).json({ message: 'Form created successfully', payload: form });
+}));
+
 
 module.exports=adminApp;
