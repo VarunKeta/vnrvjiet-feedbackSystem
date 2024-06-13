@@ -118,14 +118,13 @@ adminApp.delete('/deleteuser', verifyToken, expressAsyncHandler(async (req, res)
 
 
 
-adminApp.post('/create-form', expressAsyncHandler(async (req, res) => {
+adminApp.post('/create-form',verifyToken, expressAsyncHandler(async (req, res) => {
     const { title, questions } = req.body;
 
     if (!title || !questions || questions.length === 0) {
         return res.status(400).json({ message: 'Title and questions are required.' });
     }
 
-  
     // Manually increment qid starting from 1 for each question in the form
     const transformedQuestions = questions.map((q, index) => ({
         qid: index + 1,  // Increment qid starting from 1

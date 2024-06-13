@@ -71,6 +71,15 @@ Content-Type: application/json
 }
 
 ###
+get http://localhost:5000/admin-api/deleteuser
+###
+get http://localhost:5000/alumini-api/get-form
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFhc2giLCJpYXQiOjE3MTgwODM1NzMsImV4cCI6MTcxODE2OTk3M30.w4JjgkMq_PmEHu4TVbtBCGtHeoXenWu6VTfFX6ns_kg
+###
+post http://localhost:5000/alumini-api/form
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFhc2giLCJpYXQiOjE3MTgwODM1NzMsImV4cCI6MTcxODE2OTk3M30.w4JjgkMq_PmEHu4TVbtBCGtHeoXenWu6VTfFX6ns_kg
+
+###
 get http://localhost:5000/aa1/testit
 ###reading articles of all users
 

@@ -6,18 +6,18 @@ const expressAsyncHandler = require('express-async-handler');
 const verifyToken = require('../Middleware/verifyToken');
 require('dotenv').config();
 
-alumniApp.use(exp.json());
+facultyApp.use(exp.json());
 
-let createquestionscollection;
+let facultyquestionscollection;
 let usercollection;
 
 alumniApp.use((req, res, next) => {
-  createquestionscollection = req.app.get('createquestionscollection');
+  facultyquestionscollection = req.app.get('facultyquestionscollection');
   usercollection = req.app.get('usercollection');
   next();
 });
 
-alumniApp.get('/form',verifyToken, expressAsyncHandler(async (req, res) => {
+facultyApp.get('/form',verifyToken, expressAsyncHandler(async (req, res) => {
   try {
     const questionscollection = await createquestionscollection.find({title:"Alumni form"}).toArray();
     console.log(questionscollection)
@@ -28,7 +28,7 @@ alumniApp.get('/form',verifyToken, expressAsyncHandler(async (req, res) => {
   }
 }));
 
-alumniApp.post('/form',verifyToken, expressAsyncHandler(async (req, res) => {
+facultyApp.post('/form',verifyToken, expressAsyncHandler(async (req, res) => {
   const { username, responses, comments, name, specialization, yearOfGraduation, city, state, pinCode, employmentEmail, company, designation } = req.body;
 
   // Hash the password before storing it
@@ -38,19 +38,6 @@ alumniApp.post('/form',verifyToken, expressAsyncHandler(async (req, res) => {
     username,
     responses,
     comments,
-    name,
-    specialization,
-    yearOfGraduation,
-    mailingAddress: {
-      city,
-      state,
-      pinCode
-    },
-    employmentDetails: {
-      email: employmentEmail,
-      company,
-      designation
-    },
     submittedAt: new Date()
   };
 
@@ -64,9 +51,9 @@ alumniApp.post('/form',verifyToken, expressAsyncHandler(async (req, res) => {
 // 3. comment type
 // 4. excellent to poor (5 options)
 
-alumniApp.get('/get-form',verifyToken, expressAsyncHandler(async (req, res) => {
+facultyApp.get('/get-form',verifyToken, expressAsyncHandler(async (req, res) => {
   try {
-      const form = await createquestionscollection.findOne({title:"Alumni form"});
+      const form = await facultyquestionscollection.findOne({title:"Alumni form"});
       console.log(form)
       if (!form) {
           return res.status(404).json({ message: 'Form not found' });

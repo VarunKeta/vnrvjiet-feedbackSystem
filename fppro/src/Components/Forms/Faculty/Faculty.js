@@ -1,86 +1,110 @@
 import React, { useState, useEffect } from 'react';
-import './Faculty.css';
-
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 function Faculty() {
-  const [data, setData] = useState([]);
+  const [questions, setQuestions] = useState([]);
   const [responses, setResponses] = useState({});
   const [comments, setComments] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const { currentUser } = useSelector((state) => state.userAdminLoginReducer);
+  const [formDetails, setFormDetails] = useState({});
 
   useEffect(() => {
-    fetch(`http://localhost:4000/faculty`, { method: "GET" })
-      .then((res) => res.json())
-      .then((data) => setData(data))
-      .catch((error) => console.error("Error fetching data:", error));
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const axiosWithToken = axios.create({
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const response = await axiosWithToken.get('http://localhost:5000/faculty-api/get-form');
+        const { data } = response;
+        setQuestions(data.questions);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const handleRadioChange = (questionId, value) => {
-    setResponses(prevResponses => ({
+    setResponses((prevResponses) => ({
       ...prevResponses,
-      [questionId]: value
+      [questionId]: value,
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = {
+      username: currentUser.username, // Assuming you have the username here
       responses,
-      comments
+      comments,
+      ...formDetails
     };
+    const token = localStorage.getItem('token');
 
-    fetch('http://localhost:4000/submit-feedback', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    })
-    .then(res => res.json())
-    .then(response => {
-      console.log('Success:', response);
-      // Handle success (e.g., display a message to the user)
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      // Handle error (e.g., display an error message)
+    const axiosWithToken = axios.create({
+      headers: { Authorization: `Bearer ${token}` }
     });
+
+    try {
+      const response = await axiosWithToken.post('http://localhost:5000/faculty-api/form', formData);
+      if (response.status === 200) {
+        console.log('Success:', response.data);
+        setIsSubmitted(true);
+      } else {
+        alert(response.data.message || 'Failed to create the form');
+      }
+    } catch (error) {
+      console.error('Error submitting the form:', error);
+      alert(error.message);
+    }
   };
 
+  if (isSubmitted) {
+    return (
+      <div className="container w-75 mt-5 mb-5 text-center">
+        <h1>Your response is submitted</h1>
+      </div>
+    );
+  }
+
   return (
-    <form onSubmit={handleSubmit} className='container w-75 mt-5 mb-5 cls1' style={{ 'fontFamily': 'Radio Canada Big'}} >
-      <h1 className='text-center mb-5'>Faculty Feedback Form</h1>
-      {
-        data[0] && data[0]["questions"].map((top) => (
-          <div key={top.id} className="card mb-3 ms-4 me-4">
-            <div className="card-body fs-5" >
-              {top.id}. {top.text}
-              <div className='container w-75 mt-3 text-center'>
-                <div className="btn-group radio-group text-center" role="group" aria-label="Basic radio toggle button group" style={{ display: 'flex', gap: '10px' }}>
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
-                    <React.Fragment key={value}>
-                      <input
-                        type="radio"
-                        className="btn-check"
-                        name={`btnradio${top.id}`}
-                        id={`btnradio${top.id}-${value}`}
-                        autoComplete="off"
-                        onChange={() => handleRadioChange(top.id, value)}
-                      />
-                      <label
-                        className={`btn text-center ${value <= 5 ? 'radio_label_r' : value <= 8 ? 'radio_label_y' : 'radio_label_g'} rounded`}
-                        htmlFor={`btnradio${top.id}-${value}`}
-                      >
-                        {value}
-                      </label>
-                    </React.Fragment>
-                  ))}
-                </div>
+    <form onSubmit={handleSubmit} className="container w-75 mt-5 mb-5 cls1">
+      <h1 className="text-center mb-5">Faculty Feedback Form</h1>
+      {questions.map((question) => (
+        <div key={question.qid} className="card mb-3 ms-4 me-4">
+          <div className="card-body fs-5">
+            <div>{question.qid}. {question.text}</div>
+            <div className='container w-75 mt-3 text-center'>
+              <div className="btn-group radio-group text-center" role="group" aria-label="Basic radio toggle button group" style={{ display: 'flex', gap: '10px' }}>
+                {[5, 4, 3, 2, 1].map((value) => (
+                  <React.Fragment key={value}>
+                    <input
+                      type="radio"
+                      className="btn-check"
+                      name={`btnradio${question.qid}`}
+                      id={`btnradio${question.qid}-${value}`}
+                      autoComplete="off"
+                      onChange={() => handleRadioChange(question.qid, value)}
+                    />
+                    <label
+                      className={`btn text-center ${value <= 1 ? 'radio_label_r' : value <= 3 ? 'radio_label_y' : 'radio_label_g'} rounded`}
+                      htmlFor={`btnradio${question.qid}-${value}`}
+                    >
+                      {value}
+                    </label>
+                  </React.Fragment>
+                ))}
               </div>
             </div>
           </div>
-        ))
-      }
+        </div>
+      ))}
+      
       <div className="mb-4 fs-4 ms-4 me-4">
-        <label htmlFor="content" className="">Comments</label>
+        <label htmlFor="content" className="">General Comments</label>
         <textarea
           className="form-control mt-1"
           id="content"
@@ -89,9 +113,11 @@ function Faculty() {
           onChange={(e) => setComments(e.target.value)}
         ></textarea>
       </div>
-      <button type="submit" className="btn btn-primary fs-5 w-25 p-2 d-block m-auto">Submit</button>
+      <button type="submit" className="btn btn-primary fs-5 w-25 p-2 d-block m-auto" >submit</button>
+
     </form>
   );
 }
 
 export default Faculty;
+ 

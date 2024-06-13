@@ -31,7 +31,7 @@ function RetrieveUser() {
   };
 
   return (
-    <div className="container w-50 mt-5">
+    <div className="container w-50 mt-5 card shadow p-3">
       <h2>Retrieve User</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">

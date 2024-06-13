@@ -34,7 +34,7 @@ function UpdateUser() {
   };
 
   return (
-    <div className="container w-50 mt-5">
+    <div className="container w-50 mt-5 card shadow p-3">
       <h2>Update User</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">

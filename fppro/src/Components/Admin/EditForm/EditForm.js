@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Form, Container, ListGroup } from 'react-bootstrap';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { IoMdArrowDropdown } from "react-icons/io";
 
-function CreateForm() {
+function EditForm() {
+    const { id } = useParams();
+    const navigate = useNavigate();
     const [formTitle, setFormTitle] = useState('');
     const [questions, setQuestions] = useState([]);
     const [questionText, setQuestionText] = useState('');
@@ -10,8 +14,44 @@ function CreateForm() {
     const [editingIndex, setEditingIndex] = useState(null);
     const [isAddingQuestion, setIsAddingQuestion] = useState(false);
     const [formSubmitted, setFormSubmitted] = useState(false);
-    const [message, setMessage] = useState('');
+    const [formId, setFormId] = useState(null);
     const [userType, setUserType] = useState(''); // New state for user type
+    const [fetchTrigger, setFetchTrigger] = useState(false); // New state for triggering fetch
+
+    useEffect(() => {
+        const fetchForm = async () => {
+            if (!userType) return; // Don't fetch if user type is not selected
+
+            const token = localStorage.getItem('token');
+            const axiosWithToken = axios.create({
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            const apiUrlMap = {
+                'Student': 'http://localhost:5000/student-api/get-form',
+                'Alumni': 'http://localhost:5000/alumini-api/get-form',
+                'Faculty': 'http://localhost:5000/faculty-api/get-form'
+            };
+
+            const apiUrl = apiUrlMap[userType];
+
+            try {
+                const response = await axiosWithToken.get(apiUrl);
+                if (response.status === 200) {
+                    const data = response.data;
+                    setFormTitle(data.title);
+                    setQuestions(data.questions);
+                    setFormId(data._id);
+                } else {
+                    alert(response.data.message);
+                }
+            } catch (err) {
+                alert(err.message);
+            }
+        };
+
+        fetchForm();
+    }, [fetchTrigger, userType]);
 
     const resetForm = () => {
         setFormTitle('');
@@ -25,6 +65,7 @@ function CreateForm() {
 
     const handleAddOrEditQuestion = () => {
         const newQuestion = {
+            qid: editingIndex !== null ? questions[editingIndex].qid : questions.length + 1,  // Preserve or assign qid
             text: questionText,
             qtype: parseInt(questionType),
             references: []
@@ -58,13 +99,8 @@ function CreateForm() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const createdForm = { title: formTitle, questions };
-        const token = localStorage.getItem('token');
-        
-        const axiosWithToken = axios.create({
-            headers: { Authorization: `Bearer ${token}` }
-        });
-
+        console.log(formTitle, questions);
+        console.log(formId);
         if (!formTitle || questions.length === 0) {
             alert('Please provide a form title and at least one question.');
             return;
@@ -74,57 +110,65 @@ function CreateForm() {
             return;
         }
 
+        const token = localStorage.getItem('token');
+        const axiosWithToken = axios.create({
+            headers: { Authorization: `Bearer ${token}` }
+        });
+
         const apiUrlMap = {
-            'Student': 'http://localhost:5000/student-api/create-form',
-            'Alumni': 'http://localhost:5000/admin-api/create-form',
-            'Faculty': 'http://localhost:5000/faculty-api/create-form'
+            'Student': 'http://localhost:5000/student-api/update-form/',
+            'Alumni': 'http://localhost:5000/alumini-api/update-form/',
+            'Faculty': 'http://localhost:5000/faculty-api/update-form/'
         };
 
-        const apiUrl = apiUrlMap[userType];
+        const apiUrl = apiUrlMap[userType] + formId;
 
         try {
-            const response = await axiosWithToken.post(apiUrl, createdForm);
-            if (response.status === 201) {
+            const response = await axiosWithToken.put(apiUrl, {
+                title: formTitle,
+                questions
+            });
+            if (response.status === 200) {
                 setFormSubmitted(true);
                 setTimeout(() => {
                     resetForm();
+                    navigate('/forms'); // Redirect to forms list page
                 }, 3000); // Reset form after 3 seconds
             } else {
-                alert(response.data.message || 'Failed to create the form');
+                alert(response.data.message || 'Failed to update the form');
             }
-        } catch (error) {
-            console.error('Error:', error);
-            if (error.response && error.response.status === 401) {
-                setMessage('Unauthorized access. Please login to continue');
-            } else {
-                setMessage('Error creating form');
-            }
-            alert(error.message);
+        } catch (err) {
+            console.error('Error submitting form:', err);
+            console.error('Response:', err.response);
+            alert(err.message);
         }
     };
 
     if (formSubmitted) {
         return (
             <Container className='container card shadow p-3'>
-                <h1>Your form has been created successfully!</h1>
-                <Button onClick={resetForm} variant="primary">Create Another Form</Button>
+                <h1>Your form has been updated successfully!</h1>
+                <Button onClick={resetForm} variant="primary">Edit Another Form</Button>
             </Container>
         );
     }
 
     return (
         <Container className='container card shadow p-5'>
-            <h1 className="mb-3">Create Form</h1>
+            <h1 className="mb-3">Edit Form</h1>
             <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="userType">
-                    <Form.Label className='fw-bold'>Select User Type</Form.Label>
+                    <Form.Label className='fw-bold'>Select User Type <IoMdArrowDropdown /></Form.Label>
                     <Form.Control
                         as="select"
                         value={userType}
-                        onChange={(e) => setUserType(e.target.value)}
+                        onChange={(e) => {
+                            setUserType(e.target.value);
+                            setFetchTrigger(prev => !prev); // Trigger fetch
+                        }}
                         required
                     >
-                        <option value="">Select User Type</option>
+                      <option value="">Select User Type</option>
                         <option value="Student">Student</option>
                         <option value="Alumni">Alumni</option>
                         <option value="Faculty">Faculty</option>
@@ -132,18 +176,20 @@ function CreateForm() {
                         <option value="Parent">Parent</option>
                         <option value="Professional">Professional body</option>
                         <option value="Industry">Industry</option>
-
                     </Form.Control>
                 </Form.Group>
                 <Form.Group controlId="formTitle">
-                    <Form.Label className='fw-bold mt-2'>Form Title</Form.Label>
-                    <Form.Control
-                        as="select"
-                        value={formTitle}
-                        onChange={(e) => setFormTitle(e.target.value)}
-                        required
-                    >
-                        <option value="">Select Form Type</option>
+                    <Form.Label className='fw-bold mt-1'>Form Title</Form.Label>
+                   <Form.Control
+                    as="select"
+                    value={formTitle}
+                    onChange={(e) => {
+                        setFormTitle(e.target.value);
+                     
+                    }}
+                    required
+                >
+                    <option value="">Select Form Type <IoMdArrowDropdown /></option>
                         <option value="Student form">Student Form</option>
                         <option value="Alumni form">Alumni Form</option>
                         <option value="Faculty form">Faculty Form</option>
@@ -151,17 +197,15 @@ function CreateForm() {
                         <option value="Parent form">Parent Form</option>
                         <option value="Professional form">Professional Body Form</option>
                         <option value="Industry form">Industry Form</option>
-
-                    </Form.Control>
-                   
+                </Form.Control>
                 </Form.Group>
-                <Button variant="primary" onClick={() => setIsAddingQuestion(true)} className="mt-3">
+                <Button variant="primary" onClick={() => setIsAddingQuestion(true)} className="mt-3 me-2">
                     Add Question
                 </Button>
                 {isAddingQuestion && (
                     <div className="my-3">
                         <Form.Group controlId="questionText">
-                            <Form.Label>Question Text</Form.Label>
+                            <Form.Label className='fw-bold'>Question Text</Form.Label>
                             <Form.Control
                                 as="textarea"
                                 rows={3}
@@ -171,7 +215,7 @@ function CreateForm() {
                             />
                         </Form.Group>
                         <Form.Group controlId="questionType">
-                            <Form.Label>Question Type</Form.Label>
+                            <Form.Label className='fw-bold '>Question Type</Form.Label>
                             <Form.Control
                                 as="select"
                                 value={questionType}
@@ -194,14 +238,14 @@ function CreateForm() {
                                 setIsAddingQuestion(false);
                                 setEditingIndex(null);
                             }}
-                            className="mt-2 ml-2"
+                            className="mt-2 ms-2"
                         >
                             Cancel
                         </Button>
                     </div>
                 )}
-                <Button type="submit" variant="primary" className="mt-3 ms-3">
-                    Create Form
+                <Button type="submit" variant="primary" className="mt-3">
+                    Update Form
                 </Button>
             </Form>
             <h3 className="my-4">Questions</h3>
@@ -226,4 +270,4 @@ function CreateForm() {
     );
 }
 
-export default CreateForm;
+export default EditForm;

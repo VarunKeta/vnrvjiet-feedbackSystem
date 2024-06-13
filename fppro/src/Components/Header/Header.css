@@ -1,0 +1,36 @@
+.navbar-blur {
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
+    backdrop-filter: blur(10px); /* Blur effect */
+    -webkit-backdrop-filter: blur(10px); /* For Safari support */
+    border-bottom: 1px solid rgba(130, 0, 26, 0.2);
+  }
+  
+  .navbar-title {
+    color: #82001a;
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  .navbar-toggler {
+    border-color: #82001a;
+  }
+  
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(130, 0, 26, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+  
+  .navbar-nav .nav-link {
+    color: #82001a !important;
+  }
+  
+  .btn-custom {
+    background-color: transparent;
+    color: #82001a;
+    border: 1px solid #82001a;
+  }
+  
+  .btn-custom:hover {
+    background-color: #82001a;
+    color: #fff;
+  }
+  
