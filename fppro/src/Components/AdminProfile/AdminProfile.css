@@ -1,0 +1,84 @@
+/* Ensure the root and body elements take full height */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container that holds the navbar and content */
+.admin-profile-container {
+  display: flex;
+  min-height: 100vh; /* Ensure it takes full height of the viewport */
+  height: 100%; /* Ensure it expands according to the page size */
+}
+
+/* Side navbar styles */
+.side-navbar {
+  width: 200px;
+  background-color: #f1f1f1;
+  padding: 10px;
+  overflow: auto; /* Add scroll if content overflows */
+}
+
+.side-navbar ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.side-navbar ul li {
+  margin: 10px 0;
+}
+
+.side-navbar ul li .dropdown {
+  width: 100%;
+}
+
+.side-navbar ul li .dropdown-btn {
+  background-color: #f1f1f1;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  padding: 10px;
+  transition: background-color 0.3s; /* Smooth transition */
+  text-decoration: none; /* Remove underline from links */
+  display: block;
+}
+
+.side-navbar ul li .dropdown-btn:hover {
+  background-color: #ccc; /* Darken background on hover */
+}
+
+.side-navbar ul li .dropdown-content {
+  display: none;
+  flex-direction: column;
+}
+
+.side-navbar ul li .dropdown-content a {
+  color: black;
+  padding: 10px 20px;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s; /* Smooth transition */
+}
+
+.side-navbar ul li .dropdown-content a:hover {
+  background-color: #ddd; /* Darken background on hover */
+}
+
+/* Content area styles */
+.content {
+  flex: 1; /* Allow content to expand and take available space */
+  padding: 20px;
+}
+
+.active-link {
+  font-weight: bold;
+  color: blue;
+}
+
+/* Styles for the dropdown content when it is displayed */
+.side-navbar ul li .dropdown-content {
+  display: flex;
+}

@@ -1,0 +1,10 @@
+.rootlayout.signin-background {
+    background-image: url('https://images.shiksha.com/mediadata/images/1695813984phpzgd6M3.jpeg') !important;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh; /* Ensure it covers the full height of the viewport */
+  }
+  
+  
+
