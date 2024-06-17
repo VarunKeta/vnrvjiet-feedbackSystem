@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
 import Alumini from './Components/Forms/Alumini/Alumini';
 import 'bootstrap/dist/css/bootstrap.css';
