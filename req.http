@@ -4,7 +4,6 @@ post http://localhost:5000/user-api/login
 Content-Type: application/json
 
 {
-    "username":"Ashu4",
     "password":"$2a$06$NyqXmlZ4cYYMNEeuAIlmt.w222zmVuWdNtte5ameYTIBVw.VKL3nK",
     "userType":"user",
     "userType2":"professional",
