@@ -45,8 +45,7 @@ function Signin() {
         <div className="column "  style={{'width':'500px'}}>
           <div className=" box card shadow p-2 ">
             <img src="https://media.licdn.com/dms/image/C560BAQFKt8O5GdaFjw/company-logo_200_200/0/1680080095222/vnr_vignanajyothiinstituteofengineeringandtechnology_logo?e=2147483647&v=beta&t=TbOLxNjzU1LYPUoXNYPFMXd3-pUKhPwWyyyFfOBZn08" alt="" className="imag" />
-            <h3 className="image headi" style={{'fontSize':'16px'}}>VNR Vignana Jyothi Institute Of</h3>
-            <h3 className="image headi" style={{'fontSize':'16px'}}>Engineering And Technology</h3>
+            <h3 className="image headi" style={{'fontSize':'16px'}}>VNR Vignana Jyothi Institute Of Engineering And Technology</h3>
             <hr />
             <div className="card-body">
               {/* Invalid credentials error */}
@@ -107,7 +106,7 @@ function Signin() {
                   />
                   </div>
                   {errors.password && (
-                    <p className="text-danger">Password is required</p>
+                    <p className="text-danger">Password required</p>
                   )}
                 </div>
 
