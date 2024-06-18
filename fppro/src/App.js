@@ -1,5 +1,5 @@
 //import logo from './logo.svg';
-import './App.css';
+// import './App.css';
 import Alumini from './Components/Forms/Alumini/Alumini';
 import 'bootstrap/dist/css/bootstrap.css';
 import Faculty from './Components/Forms/Faculty/Faculty';
