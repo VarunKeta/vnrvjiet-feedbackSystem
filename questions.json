@@ -1,0 +1,551 @@
+{
+  "alumini": [
+    {
+      "questions": [
+        {
+            "qid": 3,"text": "How do you rate your acquired knowledge to interrelate with the other multidisciplinary domains?","references": ["PO-6", "PO-12", "PSO-1", "PSO-2"],"qtype":1
+        },
+        {
+          "id": 2,
+          "text": "The extent to which the acquired practical knowledge in labs is helpful to your profession",
+          "references": ["PO-4", "PO-11", "PSO-2"]
+        },
+        {
+          "id": 3,
+          "text": "How do you rate your acquired knowledge to interrelate with the other multidisciplinary domains?",
+          "references": ["PO-6", "PO-12", "PSO-1", "PSO-2"]
+        },
+        {
+          "id": 4,
+          "text": "How good are the opportunities you got to pursue research in IITs, NITs, Foreign universities and R&D organizations?",
+          "references": ["PO-1", "PSO-3"]
+        },
+        {
+          "id": 5,
+          "text": "Rate your ability in designing a product with the knowledge acquired in your course",
+          "references": ["PO-4", "PO-5", "PSO-1", "PSO-3"]
+        },
+        {
+          "id": 6,
+          "text": "How far the certifications, workshops, college activities conducted in your domain were helpful in improving ethical and leadership qualities",
+          "references": ["PO-4", "PO-5", "PO-8", "PSO-1", "PSO-2"]
+        },
+        {
+          "id": 7,
+          "text": "To what extent are you updated with the evolving trends, tools and technology in your area of specialization",
+          "references": ["PO-2", "PO-3", "PO-4", "PSO-3"]
+        },
+        {
+          "id": 8,
+          "text": "Your involvement and participation in the outreach activities of serving the needy and the society at large",
+          "references": ["PO-7", "PO-8", "PO-9", "PO-10", "PSO-1", "PSO-2", "PSO-3"]
+        },
+        {
+          "id": 9,
+          "text": "How far you could explore the entrepreneurship opportunities in the area of your specialization",
+          "references": ["PO-5", "PSO-3"]
+        }
+      ]
+    }
+  ],
+  "faculty": [
+    {
+      "questions": [
+        {
+          "id": 1,
+          "text": "What is the response of the students in terms of complexity while applying computing knowledge to the engineering problems?",
+          "references": ["PO-1", "PSO-1", "PSO-3"]
+        },
+        {
+          "id": 2,
+          "text": "Are you satisfied with potentiality of the students in distinguishing and designing prototype related to computer science and engineering?",
+          "references": ["PO-3", "PSO-2", "PSO-3"]
+        },
+        {
+          "id": 3,
+          "text": "Are the students using basic engineering principles to analyze the performance of processes and systems and design solutions to meet desired needs?",
+          "references": ["PO-3", "PO-5", "PSO-3"]
+        },
+        {
+          "id": 4,
+          "text": "What is the capability of students in giving practical exhibitions of progressive technology?",
+          "references": ["PO-2", "PO-4", "PSO-1", "PSO-3"]
+        },
+        {
+          "id": 5,
+          "text": "What is the ability of a student as an entrepreneur using various techniques and tools in engineering practice?",
+          "references": ["PO-5", "PSO-3"]
+        },
+        {
+          "id": 6,
+          "text": "Can the students integrate engineering techniques, skills, and tools to solve real-world problems?",
+          "references": ["PO-6", "PSO-1", "PSO-3"]
+        },
+        {
+          "id": 7,
+          "text": "Are the students able to estimate the impact of engineering solutions in a societal context?",
+          "references": ["PO-7", "PSO-3"]
+        },
+        {
+          "id": 8,
+          "text": "What is the student’s ability to manage team to meet deadlines and address the ethical issues when working on engineering problems when leading a project?",
+          "references": ["PO-8", "PO-9", "PSO-3"]
+        },
+        {
+          "id": 9,
+          "text": "Are the students able to collaborate with others when working on multidisciplinary teams?",
+          "references": ["PO-9", "PSO-3"]
+        },
+        {
+          "id": 10,
+          "text": "Have you observed any growth in the interpersonal skills of the students as an individual and while working on teams?",
+          "references": ["PO-8", "PO-9", "PO-10", "PSO-3"]
+        },
+        {
+          "id": 11,
+          "text": "What is the ability of students while addressing the business, financial, and market related matters associated with project engineering?",
+          "references": ["PO-10", "PO-11", "PSO-3"]
+        },
+        {
+          "id": 12,
+          "text": "Are the students willing to participate in seminars, workshops and internships to acquire the knowledge on modern engineering practices?",
+          "references": ["PO-12", "PSO-1", "PSO-2", "PSO-3"]
+        }
+      ]
+    }
+  ],
+  "industry": [
+    {
+      "questions": [
+        {
+          "id": 1,
+          "text": "Knowledge of Computer Science Engineering and understanding of process models?",
+          "references": ["PO-1", "PO-2", "PO-10", "PO-12", "PSO-1"]
+        },
+        {
+          "id": 2,
+          "text": "Communication Skills?",
+          "references": ["PO-10", "PSO-3"]
+        },
+        {
+          "id": 3,
+          "text": "Ability to work effectively as part of a team?",
+          "references": ["PO-9", "PSO-3"]
+        },
+        {
+          "id": 4,
+          "text": "Professional Competence?",
+          "references": ["PO-4", "PO-5", "PSO-3"]
+        },
+        {
+          "id": 5,
+          "text": "Ability to continue learning?",
+          "references": ["PO-12", "PSO-1", "PSO-2"]
+        },
+        {
+          "id": 6,
+          "text": "Ability to take on high levels of responsibility?",
+          "references": ["PO-6", "PO-7", "PSO-3"]
+        },
+        {
+          "id": 7,
+          "text": "The relevance of the programme in the present job responsibility?",
+          "references": ["PO-8", "PO-12", "PSO-3"]
+        },
+        {
+          "id": 8,
+          "text": "Sufficiency of the courses related to industry and entrepreneurship that they are in?",
+          "references": ["PO-5", "PO-7", "PSO-1", "PSO-2"]
+        },
+        {
+          "id": 9,
+          "text": "The offered electives relevance to the technological advancements?",
+          "references": ["PO-5", "PO-11", "PSO-1", "PSO-2"]
+        },
+        {
+          "id": 10,
+          "text": "The applicability of the domain knowledge and the tools used for designing the experiments in terms of existing practices in the industry?",
+          "references": ["PO-4", "PO-5", "PSO-3"]
+        },
+        {
+          "id": 11,
+          "text": "The Competencies in relation to the course content?",
+          "references": ["PO-6", "PO-7", "PSO-1"]
+        },
+        {
+          "id": 12,
+          "text": "The programme structure and the kind of courses offered to the graduate?",
+          "references": ["PO-1", "PO-3", "PSO-1"]
+        },
+        {
+          "id": 13,
+          "text": "Ability to take the challenges when compared to the other employees from other institutions?",
+          "references": ["PO-10", "PO-12", "PSO-3"]
+        }
+      ]
+    }
+  ],
+  "undergraduate_exit": [{
+    "institution":
+    {
+      "questions": [
+        {
+          "id": 1,
+          "text": "Placement Assistance",
+          "rating": [5, 4, 3, 2, 1]
+        },
+        {
+          "id": 2,
+          "text": "Hostel Facility",
+          "rating": [5, 4, 3, 2, 1]
+        },
+        {
+          "id": 3,
+          "text": "Transportation",
+          "rating": [5, 4, 3, 2, 1]
+        },
+        {
+          "id": 4,
+          "text": "Library Facilities",
+          "rating": [5, 4, 3, 2, 1]
+        },
+        {
+          "id": 5,
+          "text": "Scope for Extra-Curricular Activities",
+          "rating": [5, 4, 3, 2, 1]
+        },
+        {
+          "id": 6,
+          "text": "Scope for Co-Curricular Activities",
+          "rating": [5, 4, 3, 2, 1]
+        },
+        {
+          "id": 7,
+          "text": "Medical Assistance",
+          "rating": [5, 4, 3, 2, 1]
+        },
+        {
+          "id": 8,
+          "text": "Canteen",
+          "rating": [5, 4, 3, 2, 1]
+        },
+        {
+          "id": 9,
+          "text": "Right Ambience",
+          "rating": [5, 4, 3, 2, 1]
+        },
+        {
+          "id": 10,
+          "text": "Internet Facility",
+          "rating": [5, 4, 3, 2, 1]
+        },
+        {
+          "id": 11,
+          "text": "Class rooms",
+          "rating": [5, 4, 3, 2, 1]
+        },
+        {
+          "id": 12,
+          "text": "Laboratories",
+          "rating": [5, 4, 3, 2, 1]
+        },
+        {
+          "id": 13,
+          "text": "Seminar Halls",
+          "rating": [5, 4, 3, 2, 1]
+        },
+        {
+          "id": 14,
+          "text": "Audio-Visual facilities",
+          "rating": [5, 4, 3, 2, 1]
+        },
+        {
+          "id": 15,
+          "text": "Computing and Communication facility",
+          "rating": [5, 4, 3, 2, 1]
+        },
+        {
+          "id": 16,
+          "text": "Rest Rooms",
+          "rating": [5, 4, 3, 2, 1]
+        }
+      ]
+    }
+  },
+  {
+    "department": [
+      {
+        "questions": [
+          {
+            "id": 1,
+            "text": "What is your general impression of this Graduation program in Computer Science Engineering at VNRVJIET"
+          },
+          {
+            "id": 2,
+            "text": "Are you able to apply and integrate knowledge of computing to Engineering discipline & projects you implemented (PO-1, PSO -1)"
+          },
+          {
+            "id": 3,
+            "text": "Do you feel comfortable to identify, analyze, formulate and solve Complex problems related to computer science (PO-2 PSO -2)"
+          },
+          {
+            "id": 4,
+            "text": "To what extent are you able to design, construct and evaluate a computer based system, process or component to meet evolving needs (PO-3, PSO -3)"
+          },
+          {
+            "id": 5,
+            "text": "Are you able to perform applications of engineering skills and techniques for your projects (PO-4, PSO -1. PSO – 3)"
+          },
+          {
+            "id": 6,
+            "text": "Have you ever tried new software tools & techniques in developing Mini & major projects (PO-4, PO-5,PSO -1. PSO – 3)"
+          },
+          {
+            "id": 7,
+            "text": "Are you ever motivated to implement innovative ideas to build? Commercial products (PO-6, PSO -1. PSO – 3)"
+          },
+          {
+            "id": 8,
+            "text": "The extent of your participation in NSS, NCC, NGO and other outreach Activities during your studies? (PO-7, PSO -1, PSO – 2)"
+          },
+          {
+            "id": 9,
+            "text": "Rate your leadership and management skills with best professional, ethical practices and social concern (PO-8, PSO -1, PSO – 2, PSO – 3)"
+          },
+          {
+            "id": 10,
+            "text": "Are you comfortable to communicate professionally with others in the workplace and to function effectively as an individual and in group (PO-9, PSO -1, PSO – 2, PSO – 3)"
+          },
+          {
+            "id": 11,
+            "text": "To what extent you are confident to express your quality skills so as to speak, listen and present effectively the acquired technical knowledge to a range of audience (PO-10, PSO -1, PSO – 3)"
+          },
+          {
+            "id": 12,
+            "text": "Have you exhibited your project management skills and principles of finance and economics in the construction of hardware and software systems (PO-11, PSO -1, PSO – 2, PSO – 3)"
+          },
+          {
+            "id": 13,
+            "text": "Are you a part of professional bodies and are interested to continue your teaching (PO-12, PSO -1, PSO – 2, PSO – 3)"
+          }
+        ]
+      }
+    ]
+  }
+  ],
+  "parent": [
+    {
+      "questions": [
+        {
+          "id": 1,
+          "text": "In your considered opinion, your ward is trained for a successful career (PO-4, PO-5, PO-6, PO-7, PO-8, PO-9, PO-10, PO-12, PSO-1, PSO-3)",
+          "sub_questions": [
+            { "text": "Obtained adequate domain specific knowledge" },
+            { "text": "Had improvement in communication skills" },
+            { "text": "Developed professional approach" },
+            { "text": "Sensitive to environmental and societal concerns" }
+          ]
+        },
+        {
+          "id": 2,
+          "text": "Interested in updating knowledge (PO-2, PO-3, PO-12, PSO-2, PSO-3)",
+          "sub_questions": [
+            { "text": "Reads technical magazines" },
+            { "text": "Uses open sources like internet" }
+          ]
+        },
+        {
+          "id": 3,
+          "text": "Developed attitude for problem solving (PO-1, PO-2, PO-7, PSO-1, PSO-2)",
+          "sub_questions": [
+            { "text": "Ability to conceptualize and analyse" }
+          ]
+        },
+        {
+          "id": 4,
+          "text": "Developed interest in research (PO-4, PO-7, PO-11, PO-12, PSO-2, PSO-3)",
+          "sub_questions": [
+            { "text": "Planning to undertake further work in the specialization" }
+          ]
+        },
+        {
+          "id": 5,
+          "text": "As a department, we revise our course structure & syllabus in line with the recent developments in the field. We also adopt modern pedagogical techniques with interactive learning. We believe that your active participation is paramount and hence try to keep you informed about the progress of your ward. Please rate to what extent our efforts are effective."
+        },
+        {
+          "id": 6,
+          "text": "In your considered opinion, the department adopted relevant teaching learning processes & instructional materials",
+          "sub_questions": [
+            { "text": "VNR Lab protocols" },
+            { "text": "Mini-projects" },
+            { "text": "Interactive learning" },
+            { "text": "Lab oriented learning" }
+          ]
+        },
+        {
+          "id": 7,
+          "text": "Met the needs of your ward through",
+          "sub_questions": [
+            { "text": "Dedicated faculty" },
+            { "text": "Interest creation" },
+            { "text": "Teaching-Learning" },
+            { "text": "Practical orientation" },
+            { "text": "Discussions, seminars & workshops" },
+            { "text": "Topics beyond curriculum" },
+            { "text": "Ambience for learning" }
+          ]
+        },
+        {
+          "id": 8,
+          "text": "Updated academic programs in tune with changes in the domain",
+          "sub_questions": [
+            { "text": "Curriculum change" },
+            { "text": "Content change" }
+          ]
+        },
+        {
+          "id": 9,
+          "text": "Equipped with adequate physical and infrastructure facilities",
+          "sub_questions": [
+            { "text": "Class rooms" },
+            { "text": "Laboratories" },
+            { "text": "Seminar Halls" },
+            { "text": "Tutorial rooms" },
+            { "text": "Audio-Visual facilities" },
+            { "text": "Computing and communication facilities" },
+            { "text": "Department library" },
+            { "text": "Rest rooms" }
+          ]
+        },
+        {
+          "id": 10,
+          "text": "Communicated regarding ward’s performance",
+          "sub_questions": [
+            { "text": "Results" },
+            { "text": "Attendance" },
+            { "text": "Any misbehavior" }
+          ]
+        },
+        {
+          "id": 11,
+          "text": "Overall rating"
+        },
+        {
+          "id": 12,
+          "text": "As an Institute, it is our cherished mission to see that our students perform well in their chosen field, be good citizens and responsible individuals. We strive to provide needed facilities and assistance needed. Please rate to what extent these are achieved."
+        },
+        {
+          "id": 13,
+          "text": "In your considered opinion, the Institute provided",
+          "sub_questions": [
+            { "text": "Placement assistance" },
+            { "text": "Hostel Facilities" },
+            { "text": "Transportation" },
+            { "text": "Library facilities" },
+            { "text": "Scope for Extracurricular activities" },
+            { "text": "Scope for Co-curricular activities" },
+            { "text": "Medical attendance" },
+            { "text": "Canteen" },
+            { "text": "Right ambience" }
+          ]
+        }
+      ]
+    }
+  ],
+    "professional_body": [
+      {
+        "questions": [
+          {
+            "id": 1,
+            "text": "Does curriculum encourage the students to grow professionally as an entrepreneur (PO-5, PSO-1)?"
+          },
+          {
+            "id": 2,
+            "text": "The extent to which the curriculum has impact on improving analytical ability, ethical and leadership behavior of the student (PO-5, PO-6, PO-9, PSO-3)."
+          },
+          {
+            "id": 3,
+            "text": "The extent to which the curriculum can stimulate the new applications in the student (PO-1, PO-2, PO-7, PO-8, PSO-3)."
+          },
+          {
+            "id": 4,
+            "text": "The extent to which the existing curriculum can help in improving the research skills in multidiscipline (PO-4, PO-6, PO-12, PSO-2, PSO-3)."
+          },
+          {
+            "id": 5,
+            "text": "Rate the scope of curriculum for the student to get exposed to industry (PO-5, PO-6, PO-10, PO-11, PSO-3)."
+          },
+          {
+            "id": 6,
+            "text": "The extent to which the professional body is helping in contemporary development of the stream (PO-3, PO-4, PO-5, PSO-3)."
+          },
+          {
+            "id": 7,
+            "text": "How do you rate the program of the institute in comparison to the other institution you concern?"
+          },
+          {
+            "id": 8,
+            "text": "Does the workshops conducted under the professional body suit for the solution of present technological issues (Yes/No)?"
+          },
+          {
+            "id": 9,
+            "text": "Are the seminars/guest lectures up to the mark of current technologies used in industry (Yes/No)?"
+          },
+          {
+            "id": 10,
+            "text": "Do you wish to play a specific role to improve the curriculum? Please Specify."
+          },
+          {
+            "id": 11,
+            "text": "Please give your valuable suggestions for the improvement of curriculum."
+          }
+        ]
+      }
+    ],
+      
+        "theory":[{
+            "questions": [
+              {
+                "id": 1,
+                "text": "Are you able to analyze the basics of security attacks, services, goals and mechanism (CO-1)?"
+              },
+              {
+                "id": 2,
+                "text": "Are you able to apply a variety of cryptographic algorithms, hash functions, and protocols underlying network security and authentication applications (CO-2)?"
+              },
+              {
+                "id": 3,
+                "text": "Are you able to examine and analyze various email and web security mechanisms (CO-3)?"
+              },
+              {
+                "id": 4,
+                "text": "Are you able to understand the system-level security issues (CO-4)?"
+              }
+            ]
+          }]
+        ,
+          "lab":[{
+            "questions": [
+              {
+                "id": 1,
+                "text": "Are you able Implement Symmetric & Asymmetric Cryptographic Algorithms "
+              },
+              {
+                "id": 2,
+                "text": "Are you able to Evaluate the performance of Cryptographic Algorithms "
+              },
+              {
+                "id": 3,
+                "text": "Are you able to Identify and resolve attacks in the network."
+              },
+              {
+                "id": 4,
+                "text": "Are you able to Demonstrate Proxy based Security Protocols "
+              }
+            ]
+          }]
+
+    
+  
+  
+}

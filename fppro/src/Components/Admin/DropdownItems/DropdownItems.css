@@ -1,0 +1,33 @@
+.sidebar-label {
+    display: block;
+    padding: 10px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .sidebar-sub-items {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #444;
+    min-width: 200px;
+    z-index: 1001;
+  }
+  
+  .sidebar-sub-item {
+    display: block;
+    padding: 8px 15px;
+    color: #ddd;
+    text-decoration: none;
+  }
+  
+  .sidebar-sub-item:hover {
+    background-color: #555;
+  }
+  
+  .sidebar-sub-items.open {
+    display: block;
+  }
+  
