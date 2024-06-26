@@ -86,18 +86,18 @@ function PieCharts() {
         label: question.text,
         data: counts,
         backgroundColor: [
-          'rgba(255, 99, 132, 0.6)',
-          'rgba(54, 162, 235, 0.6)',
-          'rgba(255, 206, 86, 0.6)',
-          'rgba(75, 192, 192, 0.6)',
-          'rgba(153, 102, 255, 0.6)',
+         '#9f2042', // red
+         '#edbcaa', // blue
+         '#828a95 ', // green
+         '#00097f', // violet
+         '#b4a7d6', // violet
         ],
         borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
+         '#9f2042', // red
+      '#edbcaa', // blue
+      '#828a95 ', // green
+      '#00097f', // violet
+      '#b4a7d6', // violet
         ],
         borderWidth: 1,
       }],

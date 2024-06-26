@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Form } from 'react-bootstrap';
 
 function UpdateUser() {
   const [username, setUsername] = useState('');
-  const [usertype2, setUsertype2] = useState('');
+  const [userType2, setUserType2] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = { username, usertype2, email };
+    const user = { username, userType2, email };
     const token = localStorage.getItem('token');
 
-    // Create axios instance with token
     const axiosWithToken = axios.create({
       headers: { Authorization: `Bearer ${token}` }
     });
@@ -21,7 +21,7 @@ function UpdateUser() {
       const response = await axiosWithToken.put('http://localhost:5000/admin-api/updateuser', user);
       setMessage(response.data.message);
       setUsername('');
-      setUsertype2('');
+      setUserType2('');
       setEmail('');
     } catch (error) {
       console.error('Error:', error);
@@ -49,14 +49,24 @@ function UpdateUser() {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="usertype2" className="form-label">User Type</label>
-          <input
-            type="text"
-            className="form-control"
-            id="usertype2"
-            value={usertype2}
-            onChange={(e) => setUsertype2(e.target.value)}
-          />
+          <label htmlFor="userType2" className="form-label">User Type</label>
+          <Form.Control
+            as="select"
+            value={userType2}
+            onChange={(e) => setUserType2(e.target.value)}
+            required
+          >
+            <option value="">Select User Type</option>
+            <option value="Student form (Theory)">Student form (Theory)</option>
+            <option value="Student form (Laboratory)">Student form (Laboratory)</option>
+            <option value="Alumni">Alumni</option>
+            <option value="Faculty">Faculty</option>
+            <option value="Graduate Exit form (Institution)">Graduate Exit form (Institution)</option>
+            <option value="Graduate Exit form (Department)">Graduate Exit form (Department)</option>
+            <option value="Parent">Parent</option>
+            <option value="Professional">Professional body</option>
+            <option value="Industry">Industry</option>
+          </Form.Control>
         </div>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">Email</label>

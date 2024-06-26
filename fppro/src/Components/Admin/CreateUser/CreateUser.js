@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
-import { axiosWithToken } from '../../../Axioswithtoken';
-import axios from "axios";
+import axios from 'axios';
+import { Form } from 'react-bootstrap';
+
 function CreateUser() {
   const [username, setUsername] = useState('');
-  const [usertype2, setUsertype2] = useState('');
+  const [userType2, setUserType2] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = { username, usertype2, email };
-    let token=localStorage.getItem('token')
-    //create axios with token
-    const axiosWithToken=axios.create({
-      headers:{Authorization:`Bearer ${token}`}
-    })
+    const user = { username, userType2, email };
+    console.log(user)
+    let token = localStorage.getItem('token');
+    const axiosWithToken = axios.create({
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
     try {
       const response = await axiosWithToken.post('http://localhost:5000/admin-api/adduser', user);
       setMessage(response.data.message);
       setUsername('');
-      setUsertype2('');
+      setUserType2('');
       setEmail('');
     } catch (error) {
       console.error('Error:', error);
@@ -34,7 +36,7 @@ function CreateUser() {
   return (
     <div className="container w-50 mt-5 card shadow p-3">
       <h2>Create User</h2>
-      <form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="username" className="form-label">Username</label>
           <input
@@ -47,15 +49,25 @@ function CreateUser() {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="usertype2" className="form-label">User Type</label>
-          <input
-            type="text"
-            className="form-control"
-            id="usertype2"
-            value={usertype2}
-            onChange={(e) => setUsertype2(e.target.value)}
-            required
-          />
+          <label htmlFor="userType2" className="form-label">User Type</label>
+
+            <Form.Control
+              as="select"
+              value={userType2}
+              onChange={(e) => setUserType2(e.target.value)}
+              required
+            >
+              <option value="">Select User Type</option>
+              <option value="Student form (Theory)">Student form (Theory)</option>
+              <option value="Student form (Laboratory)">Student form (Laboratory)</option>
+              <option value="Alumni">Alumni</option>
+              <option value="Faculty">Faculty</option>
+              <option value="Graduate Exit form (Institution)">Graduate Exit form (Institution)</option>
+              <option value="Graduate Exit form (Department)">Graduate Exit form (Department)</option>
+              <option value="Parent">Parent</option>
+              <option value="Professional">Professional body</option>
+              <option value="Industry">Industry</option>
+            </Form.Control>
         </div>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">Email</label>
@@ -69,7 +81,7 @@ function CreateUser() {
           />
         </div>
         <button type="submit" className="btn btn-primary">Create User</button>
-      </form>
+      </Form>
       {message && <p className="mt-3">{message}</p>}
     </div>
   );

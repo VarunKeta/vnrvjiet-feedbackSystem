@@ -1,106 +1,49 @@
-import React, { useEffect, useState } from 'react';
-import { Bar } from 'react-chartjs-2';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+const nodemailer = require('nodemailer');
+const QRCode = require('qrcode');
 
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-} from 'chart.js';
+const sendEmail = async (email, orderId, paymentId) => {
+    try {
+        // Generate QR code
+        const qrCode = await QRCode.toDataURL(JSON.stringify({ 'payment_id': paymentId, 'email': email }));
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-);
-
-function Dashboard() {
-  const [formStats, setFormStats] = useState(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const axiosWithToken = axios.create({
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        const response = await axiosWithToken.get('http://localhost:5000/alumini-api/get-form-response-stats');
-        setFormStats(response.data);
-      } catch (error) {
-        console.error('Error fetching form response stats:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const prepareChartData = () => {
-    if (!formStats) return { labels: [], datasets: [] };
-
-    const labels = formStats.questions.map(question => question.text);
-    const optionCounts = {};
-    formStats.questions.forEach(question => {
-      Object.entries(question.counts).forEach(([option, count]) => {
-        if (!optionCounts[option]) {
-          optionCounts[option] = Array(formStats.questions.length).fill(0);
-        }
-        optionCounts[option][question.qid - 1] = count;
-      });
-    });
-
-    const datasets = Object.entries(optionCounts).map(([option, counts], index) => ({
-      label: option,
-      data: counts,
-      backgroundColor: `rgba(${(index * 50) % 255}, ${(index * 100) % 255}, ${(index * 150) % 255}, 0.6)`,
-      borderColor: `rgba(${(index * 50) % 255}, ${(index * 100) % 255}, ${(index * 150) % 255}, 1)`,
-      borderWidth: 1,
-    }));
-
-    return { labels, datasets };
-  };
-
-  return (
-    <div className="container">
-      <h2>Form Response Statistics</h2>
-      {formStats ? (
-        <Bar
-          data={prepareChartData()}
-          options={{
-            scales: {
-              x: {
-                stacked: false, // Display bars side by side on the x-axis
-              },
-              y: {
-                stacked: false, // Display bars side by side on the y-axis
-                beginAtZero: true,
-                ticks: {
-                  precision: 0, // Ensure y-axis labels are integers only
-                },
-              },
+        // Create a transporter
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false,
+            auth: {
+                user: 'b15productpricetracker@gmail.com',
+                pass: 'your-email-password', // Replace with your email password
             },
-          }}
-        />
-      ) : (
-        <p>Loading data...</p>
-      )}
-      <div className="mt-4 text-center">
-        <button className="btn btn-secondary" onClick={() => navigate('/admin-profile/piecharts')}>
-          Choose question
-        </button>
-      </div>
-    </div>
-  );
-}
+        });
 
-export default Dashboard;
+        // Mail options
+        const mailOptions = {
+            from: {
+                name: 'B15 Product Pricetracker',
+                address: 'b15productpricetracker@gmail.com',
+            },
+            to: email,
+            subject: 'Order Confirmation',
+            html: `
+                <h1>Order Confirmation</h1>
+                <img src="${qrCode}" alt="QR Code" />
+                <p>Order ID: ${orderId}</p>
+                <p>Payment ID: ${paymentId}</p>
+                <p>Thank you for your order!</p>
+                <p>Best regards,</p>
+                <p>B15 Product Pricetracker Team</p>
+            `,
+        };
+
+        // Send email
+        await transporter.sendMail(mailOptions);
+        console.log('Email sent successfully');
+    } catch (error) {
+        console.error('Error sending email:', error);
+    }
+};
+
+// Example usage
+sendEmail('customer@example.com', 'ORDER123456', 'PAYMENT987654');

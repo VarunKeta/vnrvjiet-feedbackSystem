@@ -3,6 +3,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import './AdminProfile.css';
 import { IoMdArrowDropdown } from "react-icons/io";
+import SendMail from '../SendMail/SendMail';
 function AdminProfile() {
   const { loginUserStatus, errorOccurred, errMsg, currentUser } = useSelector(
     (state) => state.userAdminLoginReducer
@@ -54,12 +55,14 @@ function AdminProfile() {
                 <div className="dropdown-content">
                   <NavLink to="create-form" activeClassName="active-link">Create Form</NavLink>
                   <NavLink to="edit-form" activeClassName="active-link">Edit Form</NavLink>
+                  <NavLink to="view-form" activeClassName="active-link">View Form</NavLink>
+                  <NavLink to="delete-form" activeClassName="active-link">Delete Form</NavLink>
                 </div>
               )}
             </div>
           </li>
           <li>
-            <div className="dropdown">
+            <div className="dropdown" >
               <NavLink to="settings" className='dropdown-btn' style={{'color':'black'}}>Settings</NavLink>
             </div>
           </li>
@@ -67,6 +70,7 @@ function AdminProfile() {
       </nav>
       <div className="content">
         <div className='container'>
+          {/* <SendMail/> */}
         <Outlet />
       </div>
     </div>

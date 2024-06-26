@@ -8,6 +8,10 @@ const verifyToken = require('../Middleware/verifyToken')
 //get user collection app
 require('dotenv').config()
 adminApp.use(exp.json());
+const multer = require('multer');
+const bodyParser = require('body-parser');
+const upload = multer();
+adminApp.use(bodyParser.json());
 let userscollection;
 let createquestionscollection;
 adminApp.use((req,res,next)=>{
@@ -56,20 +60,22 @@ adminApp.post('/login', expressAsyncHandler(async (req, res) => {
 
 //adding user by admin
 adminApp.post('/adduser', verifyToken, expressAsyncHandler(async (req, res) => {
-    const { username, usertype2, email } = req.body;
-    
+    const { username, userType2, email } = req.body;
+    console.log({ username, userType2, email }); // Log values to check
+  
     // Check if the user already exists
-    const existingUser = await userscollection.findOne({ username:username});
+    const existingUser = await userscollection.findOne({ username });
     if (existingUser) {
       return res.status(400).send({ message: 'Username already exists' });
     }
-    
-    await userscollection.insertOne({ username, userType2: usertype2,userType:"user", email });
+  
+    await userscollection.insertOne({ username, userType2, userType: "user", email });
     res.send({ message: 'User created' });
   }));
+  
 //update/edit user 
 adminApp.put('/updateuser', verifyToken, expressAsyncHandler(async (req, res) => {
-    const { username, usertype2, email } = req.body;
+    const { username, userType2, email } = req.body;
   
     // Check if the user exists
     const existingUser = await userscollection.findOne({ username });
@@ -79,14 +85,14 @@ adminApp.put('/updateuser', verifyToken, expressAsyncHandler(async (req, res) =>
   
     // Update the user
     const updatedUser = {
-      ...(usertype2 && { userType2: usertype2 }), // Only update if usertype2 is provided
+      ...(userType2 && { userType2 }), // Only update if userType2 is provided
       ...(email && { email }), // Only update if email is provided
     };
   
     await userscollection.updateOne({ username }, { $set: updatedUser });
   
     res.send({ message: 'User updated successfully' });
-  }));
+  })); 
 
 //retrive a user by username,usertype
 adminApp.post('/retrieveuser',verifyToken,expressAsyncHandler(async(req,res)=>{
@@ -212,7 +218,63 @@ adminApp.put('/update-form', verifyToken, expressAsyncHandler(async (req, res) =
         res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
 }));
+//delete form
+adminApp.delete('/delete-form', expressAsyncHandler(async (req, res) => {
+    const { title: formTitle } = req.body;
 
+    try {
+        const deletedForm = await createquestionscollection.findOneAndDelete({ title: formTitle });
+        if (!deletedForm) {
+            return res.status(404).json({ message: 'Form not found' });
+        }
+        res.status(200).json({ message: 'Form deleted successfully', deletedForm });
+    } catch (error) {
+        console.error('Error deleting form:', error.message);
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
+}));
   
+adminApp.post('/send-email', upload.none(), async (req, res) => {
+    const { email, username, password } = req.body;
+
+    let transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS,
+        },
+    });
+
+    let mailOptions = {
+        from:  process.env.EMAIL_USER,
+        to: email,
+        subject: 'Your Account Details',
+        text: `Hello ${username},\n\nYour password is: ${password}\n\nBest regards,\nYour Company`,
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+        res.status(200).send('Email sent successfully');
+    } catch (error) {
+        console.error('Error sending email:', error);
+        res.status(500).send('Failed to send email');
+    }
+});
+
+adminApp.post('/retrieve-form', verifyToken, expressAsyncHandler(async (req, res) => {
+    const { title: formTitle } = req.body;
+
+    try {
+        const form = await createquestionscollection.findOne({ title: formTitle });
+        if (!form) {
+            return res.status(404).json({ message: 'Form not found' });
+        }
+        res.status(200).json({ message: 'Form retrieved successfully', form });
+    } catch (error) {
+        console.error('Error retrieving form:', error.message);
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
+}));
+
 
 module.exports=adminApp;

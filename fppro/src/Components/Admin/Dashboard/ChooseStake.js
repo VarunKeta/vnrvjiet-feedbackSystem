@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
+import SendMail from '../../SendMail/SendMail';
 
 function ChooseStake() {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ function ChooseStake() {
 
   return (
     <div className='text-center'>
+      {/* <SendMail/> */}
       <h2 className='mb-5 mt-2'>Choose a stakeholder</h2>
       <Button variant="contained" className='w-75 mb-3 mt-3' onClick={() => handleNavigation('Alumni')}>Alumni</Button>
       <Button variant="contained" className='w-75 mb-3' onClick={() => handleNavigation('Faculty')}>Faculty</Button>

@@ -1,0 +1,64 @@
+Microsoft Windows [Version 10.0.22631.3447]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\parju>mongosh
+Current Mongosh Log ID: 665734a38df72733dc6c0d68
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.1.4
+Using MongoDB:          7.0.5
+Using Mongosh:          2.1.4
+mongosh 2.2.2 is available for download: https://www.mongodb.com/try/download/shell
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2024-04-25T13:08:23.797+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test>
+(To exit, press Ctrl+C again or Ctrl+D or type .exit)
+test> mongosh "mongodb+srv://cluster0.po3bzyh.mongodb.net/" --apiVersion 1 --username aashritharaj26 --password hLI3F2ttXgwSnCnA
+Uncaught:
+SyntaxError: Missing semicolon. (1:7)
+
+> 1 | mongosh "mongodb+srv://cluster0.po3bzyh.mongodb.net/" --apiVersion 1 --username aashritharaj26 --password hLI3F2ttXgwSnCnA
+    |        ^
+  2 |
+
+test> mongosh "mongodb+srv://cluster0.po3bzyh.mongodb.net/" --apiVersion 1 --username aashritharaj26 --password hLI3F2ttXgwSnCnA ;
+Uncaught:
+SyntaxError: Missing semicolon. (1:7)
+
+> 1 | mongosh "mongodb+srv://cluster0.po3bzyh.mongodb.net/" --apiVersion 1 --username aashritharaj26 --password hLI3F2ttXgwSnCnA ;
+    |        ^
+  2 |
+
+test>
+(To exit, press Ctrl+C again or Ctrl+D or type .exit)
+test>
+
+C:\Users\parju>mongosh "mongodb+srv://cluster0.po3bzyh.mongodb.net/blogdb" --username aashritharaj26 --password hLI3F2tt
+XgwSnCnA
+Current Mongosh Log ID: 6657351c4b786d7238c67a6f
+Connecting to:          mongodb+srv://<credentials>@cluster0.po3bzyh.mongodb.net/blogdb?appName=mongosh+2.1.4
+Using MongoDB:          7.0.8
+Using Mongosh:          2.1.4
+mongosh 2.2.6 is available for download: https://www.mongodb.com/try/download/shell
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+Atlas atlas-nbirv5-shard-0 [primary] blogdb> show dbs
+sample_mflix  111.54 MiB
+admin         288.00 KiB
+local          28.13 GiB
+Atlas atlas-nbirv5-shard-0 [primary] blogdb> use blogdb
+already on db blogdb
+Atlas atlas-nbirv5-shard-0 [primary] blogdb> show collections
+
+Atlas atlas-nbirv5-shard-0 [primary] blogdb> db.createCollection('usercollection')
+{ ok: 1 }
+Atlas atlas-nbirv5-shard-0 [primary] blogdb> db.createCollection('articlescollection')
+{ ok: 1 }
+Atlas atlas-nbirv5-shard-0 [primary] blogdb> db.createCollection('authorscollection')
+{ ok: 1 }
+Atlas atlas-nbirv5-shard-0 [primary] blogdb>

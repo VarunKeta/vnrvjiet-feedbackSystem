@@ -1,21 +1,22 @@
 const express = require('express');
+const nodemailer = require('nodemailer');
 const cors = require('cors');
+const bodyParser = require('body-parser');
+const multer = require('multer');
 const app = express();
+const fs = require('fs');
 require('dotenv').config();
 const { MongoClient } = require('mongodb');
 const path = require('path');
 // Enable CORS for all routes
 app.use(cors());
-
+app.use(bodyParser.json());
 // Connect to MongoDB server
 const dbUrl = process.env.DB_URL ;
 
 MongoClient.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(client => {
     const feedbackDB = client.db('feedbackDB');
-   /*const blogdb = client.db('blogdb');
-   const articlescollection=blogdb.collection('articlescollection')
-    app.set('articlescollection', articlescollection);*/
     const usercollection = feedbackDB.collection('usercollection');
     app.set('usercollection', usercollection);
     const alquestionscollection = feedbackDB.collection('alquestionscollection');
@@ -37,6 +38,7 @@ const alumniapp = require('./API/alumini-api');
 const adminApp = require('./API/admin-api');
 const graduateApp = require('./API/graduate-api');
 const facultyApp = require('./API/faculty-api');
+const parentApp = require('./API/parent-api');
 const studentApp = require('./API/student-api');
 const industryApp = require('./API/industry-api');
 const professionalApp = require('./API/professional-api');
@@ -48,6 +50,7 @@ app.use('/admin-api', adminApp);
 app.use('/faculty-api', facultyApp);
 app.use('/graduate-api', graduateApp);
 app.use('/student-api', studentApp);
+app.use('/parent-api', parentApp);
 app.use('/industry-api', industryApp);
 app.use('/professional-api', professionalApp);
 //app.use('/aa1', testApp);
@@ -64,6 +67,74 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send({ message: 'Error', payload: err });
 });
+// Configure multer for file upload
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      const uploadPath = path.join(__dirname, 'uploads');
+      if (!fs.existsSync(uploadPath)) {
+          fs.mkdirSync(uploadPath, { recursive: true });
+      }
+      cb(null, uploadPath);
+  },
+  filename: (req, file, cb) => {
+      cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage: storage });
+
+const sendEmail = async (email, file) => {
+  try {
+      const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+              user: process.env.EMAIL_USER,
+              pass: process.env.EMAIL_PASS,
+          },
+      });
+
+      const mailOptions = {
+          from: 'aashritharaj26@gmail.com',
+          to: email,
+          subject: 'File Upload Confirmation',
+          html: `
+              <h1>File Upload Confirmation</h1>
+              <p>Thank you for uploading your file.</p>
+          `,
+          attachments: [
+              {
+                  filename: file.originalname,
+                  path: file.path,
+              },
+          ],
+      };
+
+      await transporter.sendMail(mailOptions);
+      console.log('Email sent successfully');
+  } catch (error) {
+      console.error('Error sending email:', error);
+      throw error;
+  }
+};
+
+app.post('/send-email', upload.single('file'), async (req, res) => {
+  const { email } = req.body;
+  const file = req.file;
+
+  if (!email || !file) {
+      return res.status(400).send('Email and file are required.');
+  }
+
+  try {
+      await sendEmail(email, file);
+      res.status(200).send('Email sent successfully.');
+  } catch (error) {
+    console.log(error)
+      res.status(500).send('Failed to send email.');
+  }
+});
+
+
 
 // Assign port number
 const port = process.env.PORT || 4000;

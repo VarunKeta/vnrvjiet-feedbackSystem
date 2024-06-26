@@ -25,6 +25,8 @@ import Dashboard from './Components/Admin/Dashboard/Dashboard';
 import PieCharts from './Components/Admin/Dashboard/PieCharts';
 import ChooseStake from './Components/Admin/Dashboard/ChooseStake';
 import Theory from './Components/Forms/Student/Theory/Theory';
+import ViewForm from './Components/Admin/ViewForm/ViewForm';
+import DeleteForm from './Components/Admin/DeleteForm/DeleteForm';
 function App() {
   let router=createBrowserRouter([
     {
@@ -101,6 +103,14 @@ function App() {
           {
             path:'edit-form',
             element:<EditForm/>
+          },
+          {
+            path:'view-form',
+            element:<ViewForm/>
+          },
+          {
+            path:'delete-form',
+            element:<DeleteForm/>
           },
           {
             path:'choosestake',

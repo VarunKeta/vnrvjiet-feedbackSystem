@@ -36,6 +36,7 @@ function EditForm() {
                 'Graduate Exit form (Department)':'http://localhost:5000/graduate-api/get-department-form',
                 'Industry': 'http://localhost:5000/industry-api/get-form',
                 'Professional':'http://localhost:5000/professional-api/get-form',
+                'Parent':'http://localhost:5000/parent-api/get-form',
             };
 
             const apiUrl = apiUrlMap[userType];

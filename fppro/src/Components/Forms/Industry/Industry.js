@@ -99,7 +99,7 @@ function Industry() {
                         onChange={() => handleRadioChange(question.qid, value)}
                       />
                       <label
-                        className={`btn text-center ${value <= 1 ? 'radio_label_r' : value <= 3 ? 'radio_label_y' : 'radio_label_g'} rounded`}
+                        className={`btn text-center btn-outline-secondary rounded`}
                         htmlFor={`btnradio${question.qid}-${value}`}
                       >
                         {value}
@@ -123,7 +123,7 @@ function Industry() {
                         onChange={() => handleRadioChange(question.qid, value)}
                       />
                       <label
-                        className={`btn text-center ${value === 'No' ? 'radio_label_r' : 'radio_label_g'} rounded`}
+                        className={`btn text-center btn-outline-secondary rounded`}
                         htmlFor={`btnradio${question.qid}-${value}`}
                       >
                         {value}

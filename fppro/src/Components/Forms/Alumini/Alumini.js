@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
+
 function Alumini() {
   const [questions, setQuestions] = useState([]);
   const [responses, setResponses] = useState({});
@@ -168,7 +169,6 @@ function Alumini() {
           />
         </div>
       </div>
-
       {questions.map((question) => (
         <div key={question.qid} className="card mb-3 ms-4 me-4">
           <div className="card-body fs-5">
@@ -187,7 +187,7 @@ function Alumini() {
                         onChange={() => handleRadioChange(question.qid, value)}
                       />
                       <label
-                        className={`btn text-center ${value <= 1 ? 'radio_label_r' : value <= 3 ? 'radio_label_y' : 'radio_label_g'} rounded`}
+                        className={`btn text-center btn-outline-secondary rounded`}
                         htmlFor={`btnradio${question.qid}-${value}`}
                       >
                         {value}
@@ -211,7 +211,7 @@ function Alumini() {
                         onChange={() => handleRadioChange(question.qid, value)}
                       />
                       <label
-                        className={`btn text-center ${value === 'No' ? 'radio_label_r' : 'radio_label_g'} rounded`}
+                        className={`btn text-center btn-outline-secondary rounded`}
                         htmlFor={`btnradio${question.qid}-${value}`}
                       >
                         {value}
