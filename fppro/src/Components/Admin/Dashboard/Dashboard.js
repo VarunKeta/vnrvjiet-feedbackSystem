@@ -1,10 +1,10 @@
-import React, { useEffect, useState ,useRef} from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Bar } from 'react-chartjs-2';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-
+import './Dashboard.css'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -28,6 +28,8 @@ ChartJS.register(
 
 function Dashboard() {
   const [formStats, setFormStats] = useState(null);
+  const [selectedComments, setSelectedComments] = useState([]);
+  const [showDeleteOptions, setShowDeleteOptions] = useState(false); // State to manage showing delete options
   const navigate = useNavigate();
   const location = useLocation();
   const { typeOfStakeholder } = location.state || {};
@@ -77,7 +79,7 @@ function Dashboard() {
     const filteredQuestions = formStats.questions.filter(
       question => question.qtype === 1 || question.qtype === 2 || question.qtype === 4
     );
-  //common type of questions are not included .
+
     const labels = filteredQuestions.map(question => question.qid);
     const optionCounts = {};
     filteredQuestions.forEach(question => {
@@ -92,7 +94,7 @@ function Dashboard() {
     const colors = [
       '#9f2042', // red
       '#edbcaa', // blue
-      '#828a95 ', // green
+      '#828a95', // green
       '#00097f', // violet
       '#b4a7d6', // violet
     ];
@@ -100,7 +102,7 @@ function Dashboard() {
     const borderColors = [
       '#9f2042', // red
       '#edbcaa', // blue
-      '#828a95 ', // green
+      '#828a95', // green
       '#00097f', // violet
       '#b4a7d6', // violet
     ];
@@ -133,30 +135,62 @@ function Dashboard() {
       };
     });
   };
+
   const handleDownloadPDF = () => {
     const input = contentRef.current;
     const inputWidth = input.offsetWidth;
-    const inputHeight = input.offsetHeight;
-  
+    const inputHeight = input.scrollHeight;
+
     html2canvas(input, { scale: 2 }).then(canvas => {
       const imgData = canvas.toDataURL('image/png', 1.0);
       const pdf = new jsPDF('landscape');
       const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (inputHeight / inputWidth) * pdfWidth;
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = pdfWidth;
+      const imgHeight = (inputHeight / inputWidth) * pdfWidth;
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pdfHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
+      }
+
       pdf.save('report.pdf');
     });
   };
+
   const tableData = calculatePercentages();
- 
+
+  const toggleCommentSelection = (comment) => {
+    const index = selectedComments.indexOf(comment);
+    if (index === -1) {
+      setSelectedComments([...selectedComments, comment]);
+    } else {
+      setSelectedComments(selectedComments.filter(item => item !== comment));
+    }
+  };
+
+  const deleteSelectedComments = () => {
+    const updatedComments = formStats.comments.filter(comment => !selectedComments.includes(comment));
+    setFormStats({ ...formStats, comments: updatedComments });
+    setSelectedComments([]);
+    setShowDeleteOptions(false); // Reset delete options display after deletion
+  };
+
   return (
     <div className="container" ref={contentRef}>
       <h2>Form Response Statistics</h2>
       <h2>{typeOfStakeholder}</h2>
-     
-        {formStats ? (
-          <>
-           <div className="ms-5 me-5 mb-5 mt-2 p-5" style={{ 'width': '70%' }}>
+
+      {formStats ? (
+        <>
+          <div className="ms-5 me-5 mb-4 mt-2 p-5" style={{ 'width': '70%' }}>
             <Bar
               data={prepareChartData()}
               options={{
@@ -174,45 +208,88 @@ function Dashboard() {
                 },
               }}
             />
-              </div>
-            <table className="table mt-5">
-              <thead>
-                <tr>
-                  <th>Question No</th>
-                  <th>Question Text</th>
-                  {Object.keys(tableData[0]).filter(key => key !== 'qid' && key !== 'qtext').map(option => (
-                    <th key={option}>% {option}</th>
+          </div>
+          <table className="table mt-5">
+            <thead>
+              <tr>
+                <th>Question No</th>
+                <th>Question Text</th>
+                {Object.keys(tableData[0]).filter(key => key !== 'qid' && key !== 'qtext').map(option => (
+                  <th key={option}>% {option}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {tableData.map(row => (
+                <tr key={row.qid}>
+                  <td>{row.qid}</td>
+                  <td>{row.qtext}</td>
+                  {Object.keys(row).filter(key => key !== 'qid' && key !== 'qtext').map(option => (
+                    <td key={option}>{row[option]}</td>
                   ))}
                 </tr>
-              </thead>
-              <tbody>
-                {tableData.map(row => (
-                  <tr key={row.qid}>
-                    <td>{row.qid}</td>
-                    <td>{row.qtext}</td>
-                    {Object.keys(row).filter(key => key !== 'qid' && key !== 'qtext').map(option => (
-                      <td key={option}>{row[option]}</td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </>
-        ) : (
-          <p>Loading data...</p>
-        )}
-        <div className="mt-4 text-center">
-          <button className="btn btn-secondary mr-3" onClick={handleDownloadPDF}>
-                            Download PDF Report
-                      </button>
+              ))}
+            </tbody>
+          </table>
+          <div>
+            {showDeleteOptions ? (
+              <>
+                <h3>All Comments - Delete Options:</h3>
+                <ul>
+                  {formStats.comments.map((comment, index) => (
+                    <li key={index}>
+                      <input
+                        type="checkbox"
+                        checked={selectedComments.includes(comment)}
+                        onChange={() => toggleCommentSelection(comment)}
+                      />
+                      {comment}
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-4 text-center">
+                  <button className="btn btn-danger me-2" onClick={deleteSelectedComments}>
+                    Delete Selected Comments
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h3>All Comments:</h3>
+                <ul>
+                  {formStats.comments.map((comment, index) => (
+                    <li key={index}>
+                      {comment}
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-4 text-center">
+                <div className="print-hidden">
+                  <button className="btn btn-secondary" onClick={() => setShowDeleteOptions(true)}>
+                    Show Delete Options
+                  </button>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        
+        </>
+      ) : (
+        <p>Loading data...</p>
+      )}
+      <div className="mt-4 text-center">
+    <div className="print-hidden">
+    <button className="btn btn-secondary d-block m-auto mb-2" onClick={handleDownloadPDF}>
+      Download PDF Report
+    </button>
+    <button className="btn btn-secondary d-block m-auto" onClick={() => navigate('/admin-profile/piecharts', { state: { typeOfStakeholder } })}>
+      Choose question
+    </button>
+  </div>
 </div>
-        <div className="mt-4 text-center">
-          <button className="btn btn-secondary" onClick={() => navigate('/admin-profile/piecharts', { state: { typeOfStakeholder } })}>
-            Choose question
-          </button>
-        </div>
-      </div>
- 
+
+    </div>
   );
 }
 

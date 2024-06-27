@@ -163,7 +163,8 @@ adminApp.post('/create-form', verifyToken, expressAsyncHandler(async (req, res) 
     const form = {
         title,
         questions: transformedQuestions,
-        createdAt: new Date()
+        createdAt: new Date(),
+        comments: [] // Initialize an empty comments array
     };
 
     await createquestionscollection.insertOne(form);
@@ -173,7 +174,7 @@ adminApp.post('/create-form', verifyToken, expressAsyncHandler(async (req, res) 
 const { ObjectId } = require('mongodb');
 
 adminApp.put('/update-form', verifyToken, expressAsyncHandler(async (req, res) => {
-    const { title, questions } = req.body;
+    const { title, questions, comments = [] } = req.body;
     console.log(title, questions);
 
     if (!title || !questions || questions.length === 0) {
@@ -206,7 +207,7 @@ adminApp.put('/update-form', verifyToken, expressAsyncHandler(async (req, res) =
     try {
         const result = await createquestionscollection.updateOne(
             { title: title },
-            { $set: { questions: transformedQuestions, updatedAt: new Date() } }
+            { $set: { questions: transformedQuestions, updatedAt: new Date(), comments: comments } }
         );
         if (result.modifiedCount === 0) {
             return res.status(404).json({ message: 'Form not found' });
@@ -218,6 +219,7 @@ adminApp.put('/update-form', verifyToken, expressAsyncHandler(async (req, res) =
         res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
 }));
+
 //delete form
 adminApp.delete('/delete-form', expressAsyncHandler(async (req, res) => {
     const { title: formTitle } = req.body;

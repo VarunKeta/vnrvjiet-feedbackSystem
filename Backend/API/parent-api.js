@@ -19,79 +19,84 @@ parentApp.use((req, res, next) => {
 
 
 parentApp.post('/submit-form', verifyToken, expressAsyncHandler(async (req, res) => {
-    const {
-      username, responses, comments, 
-      name, relationshipToWard, address, 
-      mobile, email, wardName, wardHTNo, 
+  const {
+    username, responses, comments, 
+    name, relationshipToWard, address, 
+    mobile, email, wardName, wardHTNo, 
+    wardLocationContact
+  } = req.body;
+
+  const submission = {
+    username,
+    responses,
+    comments,
+    personalDetails: {
+      name,
+      relationshipToWard,
+      address,
+      mobile,
+      email,
+      wardName,
+      wardHTNo,
       wardLocationContact
-    } = req.body;
-  
-    const submission = {
-      username,
-      responses,
-      comments,
-      personalDetails: {
-        name,
-        relationshipToWard,
-        address,
-        mobile,
-        email,
-        wardName,
-        wardHTNo,
-        wardLocationContact
-      },
-      submittedAt: new Date()
-    };
-  
-    try {
-      const form = await createquestionscollection.findOne({ title: 'Parent form' });
-  
-      if (!form) {
-        return res.status(404).json({ message: 'Form not found' });
-      }
-  
-      // Update counts based on responses
-      const updatedQuestions = form.questions.map(question => {
-        if (responses[question.qid] !== undefined) {
-          const responseValue = responses[question.qid];
-          
-          switch (question.qtype) {
-            case 1: // 1-5 options
-            case 4: // excellent to poor (5 options)
-              if (!question.counts) {
-                question.counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
-              }
-              question.counts[responseValue] = (question.counts[responseValue] || 0) + 1;
-              break;
-            case 2: // yes/no
-              if (!question.counts) {
-                question.counts = { yes: 0, no: 0 };
-              }
-              const yesNoOption = responseValue ? 'yes' : 'no';
-              question.counts[yesNoOption] = (question.counts[yesNoOption] || 0) + 1;
-              break;
-            case 3: // comment type (no count to update)
-              break;
-            default:
-              break;
-          }
-        }
-        return question;
-      });
-  
-      await createquestionscollection.updateOne(
-        { title: 'Parent form' },
-        { $set: { questions: updatedQuestions } }
-      );
-  
-      await usercollection.insertOne(submission);
-  
-      res.send({ message: 'Feedback submitted successfully', payload: submission });
-    } catch (error) {
-      console.error('Error submitting form:', error.message);
-      res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    },
+    submittedAt: new Date()
+  };
+
+  try {
+    const form = await createquestionscollection.findOne({ title: 'Parent form' });
+
+    if (!form) {
+      return res.status(404).json({ message: 'Form not found' });
     }
-  }));
+
+    // Update counts based on responses
+    const updatedQuestions = form.questions.map(question => {
+      if (responses[question.qid] !== undefined) {
+        const responseValue = responses[question.qid];
+        
+        switch (question.qtype) {
+          case 1: // 1-5 options
+          case 4: // excellent to poor (5 options)
+            if (!question.counts) {
+              question.counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+            }
+            question.counts[responseValue] = (question.counts[responseValue] || 0) + 1;
+            break;
+          case 2: // yes/no
+            if (!question.counts) {
+              question.counts = { yes: 0, no: 0 };
+            }
+            const yesNoOption = responseValue ? 'yes' : 'no';
+            question.counts[yesNoOption] = (question.counts[yesNoOption] || 0) + 1;
+            break;
+          case 3: // comment type (no count to update)
+            break;
+          default:
+            break;
+        }
+      }
+      return question;
+    });
+
+    // Add the comments to the form's comments array
+    const updatedComments = form.comments || [];
+    updatedComments.push(comments);
+
+    await createquestionscollection.updateOne(
+      { title: 'Parent form' },
+      { $set: { questions: updatedQuestions, comments: updatedComments } }
+    );
+
+    await usercollection.insertOne(submission);
+
+    res.send({ message: 'Feedback submitted successfully', payload: submission });
+  } catch (error) {
+    console.error('Error submitting form:', error.message);
+    res.status(500).json({ message: 'Internal Server Error', error: error.message });
+  }
+}));
+
 parentApp.get('/get-form',verifyToken, expressAsyncHandler(async (req, res) => {
     try {
         const form = await createquestionscollection.findOne({title:"Parent form"});
@@ -107,7 +112,7 @@ parentApp.get('/get-form',verifyToken, expressAsyncHandler(async (req, res) => {
   }));
   //graph
   
-parentApp.get('/get-form-response-stats', verifyToken, expressAsyncHandler(async (req, res) => {
+  parentApp.get('/get-form-response-stats', verifyToken, expressAsyncHandler(async (req, res) => {
     try {
       // Retrieve the form data
       const form = await createquestionscollection.findOne({ title: "Parent form" });
@@ -121,9 +126,10 @@ parentApp.get('/get-form-response-stats', verifyToken, expressAsyncHandler(async
         questions: form.questions.map(question => ({
           qid: question.qid,
           text: question.text,
-          qtype:question.qtype,
+          qtype: question.qtype,
           counts: question.counts || {}
-        }))
+        })),
+        comments: form.comments || []  // Include comments in the response
       };
   
       res.status(200).json(formStats);

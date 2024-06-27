@@ -17,7 +17,6 @@ alumniApp.use((req, res, next) => {
   next();
 });
 
-
 alumniApp.post('/submit-form', verifyToken, expressAsyncHandler(async (req, res) => {
   const {
       username, responses, comments, name, specialization, yearOfGraduation,
@@ -80,9 +79,13 @@ alumniApp.post('/submit-form', verifyToken, expressAsyncHandler(async (req, res)
           return question;
       });
 
+      // Add the comments to the form's comments array
+      const updatedComments = form.comments || [];
+      updatedComments.push(comments);
+
       await createquestionscollection.updateOne(
           { title: 'Alumni form' },
-          { $set: { questions: updatedQuestions } }
+          { $set: { questions: updatedQuestions, comments: updatedComments } }
       );
 
       await usercollection.insertOne(submission);
@@ -100,9 +103,9 @@ alumniApp.post('/submit-form', verifyToken, expressAsyncHandler(async (req, res)
 // 3. comment type
 // 4. excellent to poor (5 options)
 
-alumniApp.get('/get-form',verifyToken, expressAsyncHandler(async (req, res) => {
+alumniApp.get('/get-form', verifyToken, expressAsyncHandler(async (req, res) => {
   try {
-      const form = await createquestionscollection.findOne({title:"Alumni form"});
+      const form = await createquestionscollection.findOne({ title: "Alumni form" });
       console.log(form)
       if (!form) {
           return res.status(404).json({ message: 'Form not found' });
@@ -113,33 +116,33 @@ alumniApp.get('/get-form',verifyToken, expressAsyncHandler(async (req, res) => {
       res.status(500).json({ message: error.message });
   }
 }));
-//graph
 
+// Graph
 alumniApp.get('/get-form-response-stats', verifyToken, expressAsyncHandler(async (req, res) => {
-  try {
-    // Retrieve the form data
-    const form = await createquestionscollection.findOne({ title: "Alumni form" });
-    
-    if (!form) {
-      return res.status(404).json({ message: 'Form not found' });
+    try {
+      // Retrieve the form data
+      const form = await createquestionscollection.findOne({ title: "Alumni form" });
+      
+      if (!form) {
+        return res.status(404).json({ message: 'Form not found' });
+      }
+  
+      const formStats = {
+        title: form.title,
+        questions: form.questions.map(question => ({
+          qid: question.qid,
+          text: question.text,
+          qtype: question.qtype,
+          counts: question.counts || {}
+        })),
+        comments: form.comments || []  // Include comments in the response
+      };
+  
+      res.status(200).json(formStats);
+    } catch (error) {
+      console.error('Error fetching form response stats:', error.message);
+      res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
-
-    const formStats = {
-      title: form.title,
-      questions: form.questions.map(question => ({
-        qid: question.qid,
-        text: question.text,
-        qtype:question.qtype,
-        counts: question.counts || {}
-      }))
-    };
-
-    res.status(200).json(formStats);
-  } catch (error) {
-    console.error('Error fetching form response stats:', error.message);
-    res.status(500).json({ message: 'Internal Server Error', error: error.message });
-  }
-}));
-
-
+  }));
+  
 module.exports = alumniApp;

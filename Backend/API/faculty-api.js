@@ -17,10 +17,9 @@ facultyApp.use((req, res, next) => {
   next();
 });
 
-
 facultyApp.post('/submit-form', verifyToken, expressAsyncHandler(async (req, res) => {
   const {
-    username, responses, comments, 
+    username, responses, comments
   } = req.body;
 
   const submission = {
@@ -66,9 +65,13 @@ facultyApp.post('/submit-form', verifyToken, expressAsyncHandler(async (req, res
       return question;
     });
 
+    // Add the comments to the form's comments array
+    const updatedComments = form.comments || [];
+    updatedComments.push(comments);
+
     await createquestionscollection.updateOne(
       { title: 'Faculty form' },
-      { $set: { questions: updatedQuestions } }
+      { $set: { questions: updatedQuestions, comments: updatedComments } }
     );
 
     await usercollection.insertOne(submission);
@@ -80,14 +83,13 @@ facultyApp.post('/submit-form', verifyToken, expressAsyncHandler(async (req, res
   }
 }));
 
-
 // question types:
 // 1. 1-5 options
 // 2. yes/no
 // 3. comment type
 // 4. excellent to poor (5 options)
 
-facultyApp.get('/get-form',verifyToken, expressAsyncHandler(async (req, res) => {
+facultyApp.get('/get-form', verifyToken, expressAsyncHandler(async (req, res) => {
   try {
       const form = await createquestionscollection.findOne({title:"Faculty form"});
       console.log(form)
@@ -115,9 +117,10 @@ facultyApp.get('/get-form-response-stats', verifyToken, expressAsyncHandler(asyn
       questions: form.questions.map(question => ({
         qid: question.qid,
         text: question.text,
-        qtype:question.qtype,
+        qtype: question.qtype,
         counts: question.counts || {}
-      }))
+      })),
+      comments: form.comments || []  // Include comments in the response
     };
 
     res.status(200).json(formStats);
@@ -126,5 +129,6 @@ facultyApp.get('/get-form-response-stats', verifyToken, expressAsyncHandler(asyn
     res.status(500).json({ message: 'Internal Server Error', error: error.message });
   }
 }));
+
 
 module.exports = facultyApp;
