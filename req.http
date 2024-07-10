@@ -4,11 +4,11 @@ post http://localhost:5000/user-api/login
 Content-Type: application/json
 
 {
-    "username":"Sam",
-    "password":"$2a$06$NyqXmlZ4cYYMNEeuAIlmt.w222zmVuWdNtte5ameYTIBVw.VKL3nK",
+    "username":"kate",
+    "password":"$2a$06$5L8CK8c8dRbGyCBjobsg2uEZPSfATKUcwuFgfIKF46IVjlw58fG7m",
     "userType":"user",
-    "userType2":"parent",
-    "email":"sam@gmail.com"
+    "userType2":"Faculty",
+    "email":"kate@gmail.com"
 }
 
 ###

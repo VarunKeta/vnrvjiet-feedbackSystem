@@ -35,9 +35,7 @@ function PieCharts() {
   } else if(typeOfStakeholder === 'Faculty'){
     url = 'http://localhost:5000/faculty-api/get-form-response-stats';
   }else if(typeOfStakeholder === 'Student_theory'){
-    url = 'http://localhost:5000/student-api/get-form-response-stats-theory';
-  }else if(typeOfStakeholder === 'Student_laboratory'){
-      url = 'http://localhost:5000/student-api/get-form-response-stats-laboratory';
+    url = 'http://localhost:5000/student-api/get-form-response-stats';
   } else if(typeOfStakeholder === 'Graduate_exit_institution'){
     url = 'http://localhost:5000/graduate-api/get-form-response-stats-institution';
   } else if(typeOfStakeholder === 'Graduate_exit_department'){
@@ -86,18 +84,18 @@ function PieCharts() {
         label: question.text,
         data: counts,
         backgroundColor: [
-         '#9f2042', // red
-         '#edbcaa', // blue
-         '#828a95 ', // green
-         '#00097f', // violet
-         '#b4a7d6', // violet
+          '#ff0000', // red
+          '#008000', // blue
+          '#0000ff', // green
+          '#ffff00', // violet
+          '#800080', // violet
         ],
         borderColor: [
-         '#9f2042', // red
-      '#edbcaa', // blue
-      '#828a95 ', // green
-      '#00097f', // violet
-      '#b4a7d6', // violet
+          '#ff0000', // red
+      '#008000', // blue
+      '#0000ff', // green
+      '#ffff00', // violet
+      '#800080', // violet
         ],
         borderWidth: 1,
       }],

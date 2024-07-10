@@ -28,8 +28,7 @@ function EditForm() {
             });
 
             const apiUrlMap = {
-                'Student form (Theory)': 'http://localhost:5000/student-api/get-theory-form',
-                'Student form (Laboratory)': 'http://localhost:5000/student-api/get-laboratory-form',
+                'Student form': 'http://localhost:5000/student-api/get-form',
                 'Alumni': 'http://localhost:5000/alumini-api/get-form',
                 'Faculty': 'http://localhost:5000/faculty-api/get-form',
                 'Graduate Exit form (Institution)':'http://localhost:5000/graduate-api/get-institution-form',
@@ -170,8 +169,7 @@ function EditForm() {
                         required
                     >
                       <option value="">Select User Type</option>
-                        <option value="Student form (Theory)">Student form (Theory)</option>
-                        <option value="Student form (Laboratory)">Student form (Laboratory)</option>
+                        <option value="Student form">Student form</option>
                         <option value="Alumni">Alumni</option>
                         <option value="Faculty">Faculty</option>
                         <option value="Graduate Exit form (Institution)">Graduate Exit form (Institution)</option>
@@ -194,8 +192,7 @@ function EditForm() {
 
                 >
                     <option value="">Select Form Type</option>
-                        <option value="Student form (Theory)">Student form (Theory)</option>
-                        <option value="Student form (Laboratory)">Student form (Laboratory)</option>
+                        <option value="Student form">Student form</option>
                         <option value="Alumni form">Alumni Form</option>
                         <option value="Faculty form">Faculty Form</option>
                         <option value="Graduate Exit form (Institution)">Graduate Exit form (Institution)</option>

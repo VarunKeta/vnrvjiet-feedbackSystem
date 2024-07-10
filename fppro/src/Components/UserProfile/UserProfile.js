@@ -3,13 +3,13 @@ import { NavLink, Outlet } from "react-router-dom";
 import Alumini from "../Forms/Alumini/Alumini";
 import Faculty from "../Forms/Faculty/Faculty";
 import Industry from "../Forms/Industry/Industry";
-import Lab from "../Forms/Student/Lab/Lab";
+import Student from '../Forms/Student/Student';
 import Parent from "../Forms/Parent/Parent";
 import { useSelector,useDispatch } from "react-redux";
 import { resetState } from "../../redux/slices/userAdminSlice";
 import Professional from "../Forms/Professional/Professional";
 import Department from '../Forms/Graduate_exit/Department/Department';
-import Theory from '../Forms/Student/Theory/Theory';
+
 function UserProfile() {
     let { loginUserStatus, errorOccurred, errMsg,currentUser } = useSelector(
         (state) => state.userAdminLoginReducer
@@ -63,7 +63,7 @@ function UserProfile() {
         </>
       ) : userType2 === "student" ? (
         <>
-       <Theory/>
+       <Student/>
         </>
       ) : userType2==="faculty" ?  (
         <>

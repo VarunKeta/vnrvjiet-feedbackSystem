@@ -31,6 +31,7 @@ function Dashboard() {
   const [selectedComments, setSelectedComments] = useState([]);
   const [showDeleteOptions, setShowDeleteOptions] = useState(false); // State to manage showing delete options
   const navigate = useNavigate();
+  const opt = ['excellent', 'very good', 'good', 'satisfied', 'unsatisfied'];
   const location = useLocation();
   const { typeOfStakeholder } = location.state || {};
   const contentRef = useRef(null);
@@ -40,10 +41,8 @@ function Dashboard() {
     url = 'http://localhost:5000/alumini-api/get-form-response-stats';
   } else if (typeOfStakeholder === 'Faculty') {
     url = 'http://localhost:5000/faculty-api/get-form-response-stats';
-  } else if (typeOfStakeholder === 'Student_theory') {
-    url = 'http://localhost:5000/student-api/get-form-response-stats-theory';
-  } else if (typeOfStakeholder === 'Student_laboratory') {
-    url = 'http://localhost:5000/student-api/get-form-response-stats-laboratory';
+  } else if (typeOfStakeholder === 'Student') {
+    url = 'http://localhost:5000/student-api/get-form-response-stats';
   } else if (typeOfStakeholder === 'Graduate_exit_institution') {
     url = 'http://localhost:5000/graduate-api/get-form-response-stats-institution';
   } else if (typeOfStakeholder === 'Graduate_exit_department') {
@@ -92,23 +91,23 @@ function Dashboard() {
     });
 
     const colors = [
-      '#9f2042', // red
-      '#edbcaa', // blue
-      '#828a95', // green
-      '#00097f', // violet
-      '#b4a7d6', // violet
+     '#ff0000', // red
+          '#008000', // blue
+          '#0000ff', // green
+          '#ffff00', // violet
+          '#800080', // violet
     ];
 
     const borderColors = [
-      '#9f2042', // red
-      '#edbcaa', // blue
-      '#828a95', // green
-      '#00097f', // violet
-      '#b4a7d6', // violet
+     '#ff0000', // red
+          '#008000', // blue
+          '#0000ff', // green
+          '#ffff00', // violet
+          '#800080', // violet
     ];
 
-    const datasets = Object.entries(optionCounts).map(([option, counts], index) => ({
-      label: option,
+    const datasets = Object.entries(optionCounts).map(([opt, counts], index) => ({
+      label: opt,
       data: counts,
       backgroundColor: colors[index % colors.length],
       borderColor: borderColors[index % borderColors.length],
@@ -196,9 +195,17 @@ function Dashboard() {
               options={{
                 scales: {
                   x: {
+                    title: {
+                      display: true,
+                      text: 'Questions'
+                    },
                     stacked: false,
                   },
                   y: {
+                    title: {
+                      display: true,
+                      text: 'Responses'
+                    },
                     stacked: false,
                     beginAtZero: true,
                     ticks: {
@@ -214,7 +221,7 @@ function Dashboard() {
               <tr>
                 <th>Question No</th>
                 <th>Question Text</th>
-                {Object.keys(tableData[0]).filter(key => key !== 'qid' && key !== 'qtext').map(option => (
+                {opt.map(option => (
                   <th key={option}>% {option}</th>
                 ))}
               </tr>
@@ -224,8 +231,8 @@ function Dashboard() {
                 <tr key={row.qid}>
                   <td>{row.qid}</td>
                   <td>{row.qtext}</td>
-                  {Object.keys(row).filter(key => key !== 'qid' && key !== 'qtext').map(option => (
-                    <td key={option}>{row[option]}</td>
+                  {opt.map(option => (
+                    <td key={option}>{row[option] || '0.00'}</td>
                   ))}
                 </tr>
               ))}

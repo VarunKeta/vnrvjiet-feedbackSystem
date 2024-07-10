@@ -17,8 +17,7 @@ function ChooseStake() {
       <Button variant="contained" className='w-75 mb-3 mt-3' onClick={() => handleNavigation('Alumni')}>Alumni</Button>
       <Button variant="contained" className='w-75 mb-3' onClick={() => handleNavigation('Faculty')}>Faculty</Button>
       <Button variant="contained" className='w-75 mb-3' onClick={() => handleNavigation('Parent')}>Parent</Button>
-      <Button variant="contained" className='w-75 mb-3' onClick={() => handleNavigation('Student_theory')}>Student (Theory)</Button>
-      <Button variant="contained" className='w-75 mb-3' onClick={() => handleNavigation('Student_laboratory')}>Student (Laboratory)</Button>
+      <Button variant="contained" className='w-75 mb-3' onClick={() => handleNavigation('Student')}>Student</Button>
       <Button variant="contained" className='w-75 mb-3' onClick={() => handleNavigation('Graduate_exit_institution')}>Graduate Exit (Institution)</Button>
       <Button variant="contained" className='w-75 mb-3' onClick={() => handleNavigation('Graduate_exit_department')}>Graduate Exit (Department)</Button>
       <Button variant="contained" className='w-75 mb-3' onClick={() => handleNavigation('Industry')}>Industry</Button>

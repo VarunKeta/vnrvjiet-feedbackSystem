@@ -62,14 +62,15 @@ adminApp.post('/login', expressAsyncHandler(async (req, res) => {
 adminApp.post('/adduser', verifyToken, expressAsyncHandler(async (req, res) => {
     const { username, userType2, email } = req.body;
     console.log({ username, userType2, email }); // Log values to check
-  
+    const Password="vnrvjiet";
+   const password=await bcrypt.hash(Password,6)
     // Check if the user already exists
     const existingUser = await userscollection.findOne({ username });
     if (existingUser) {
       return res.status(400).send({ message: 'Username already exists' });
     }
   
-    await userscollection.insertOne({ username, userType2, userType: "user", email });
+    await userscollection.insertOne({ username,password, userType2, userType: "user", email });
     res.send({ message: 'User created' });
   }));
   

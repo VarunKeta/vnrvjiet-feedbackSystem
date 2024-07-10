@@ -128,8 +128,7 @@ function CreateForm() {
                         required
                     >
                         <option value="">Select User Type</option>
-                        <option value="Student form (Theory)">Student form (Theory)</option>
-                        <option value="Student form (Laboratory)">Student form (Laboratory)</option>
+                        <option value="Student form">Student form</option>
                         <option value="Alumni">Alumni</option>
                         <option value="Faculty">Faculty</option>
                         <option value="Graduate Exit form (Institution)">Graduate Exit form (Institution)</option>
@@ -148,8 +147,7 @@ function CreateForm() {
                         required
                     >
                         <option value="">Select Form Type</option>
-                        <option value="Student form (Theory)">Student form (Theory)</option>
-                        <option value="Student form (Laboratory)">Student form (Laboratory)</option>
+                        <option value="Student form">Student form</option>
                         <option value="Alumni form">Alumni Form</option>
                         <option value="Faculty form">Faculty Form</option>
                         <option value="Graduate Exit form (Institution)">Graduate Exit form (Institution)</option>
